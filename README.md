@@ -12,4 +12,5 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
 2. c++ 抛开还未入门编程时的那种恐惧心理
 - 也无非是源代码, cmake, 再加上系统环境的库, 编译器, 编译器的参数, 编译脚本, 编译成目标文件, 链接成可执行程序, 如此而已
 
-3.
+3. gitee 与 github
+- commit graph 没有计数, 需要针对每个项目设置本地的 user.email, user.name
