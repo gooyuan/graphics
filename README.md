@@ -14,3 +14,18 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
 
 3. gitee 与 github
 - commit graph 没有计数, 需要针对每个项目设置本地的 user.email, user.name
+
+3. 环境搞好了, 然也拖了几天 
+- 虽然公司的事忙, 找房子也忙, 但是每天还是缺少对图形学的喜爱
+- 总得有一两个
+
+## g++ 
+1. 编译
+- g++ -O0 -g3 -Wall -c -fmessage-length=0 -o GL01Hello.o "..\\OpenGL01.cpp" 
+
+2. 链接
+- g++ -o GL01Hello.exe GL01Hello.o -lglu32 -lopengl32 -lfreeglut
+
+3. cmake编译
+- 
+
