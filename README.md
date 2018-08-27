@@ -27,5 +27,6 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
 - g++ -o GL01Hello.exe GL01Hello.o -lglu32 -lopengl32 -lfreeglut
 
 3. cmake编译
-- 
+- cmake .. -G "MinGW Makefiles" 
+- mingw32-make
 

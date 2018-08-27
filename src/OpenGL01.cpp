@@ -4,9 +4,6 @@
 
 void render_1(int i, char *pString[]);
 
-void render_2(int argc, char **argv);
-
-
 void ChangeSize(GLsizei w, GLsizei h) {
     if (w < 1) w = 1;
     if (h < 1) h = 1;
