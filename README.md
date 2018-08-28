@@ -30,3 +30,13 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
 - cmake .. -G "MinGW Makefiles" 
 - mingw32-make
 
+4. 搭建一个渲染框架
+- IRender
+    * 如何定义接口
+- 创建多文件夹
+    * cmake使用
+- 学习一个现有的项目
+    * 在github上找到Craft, 
+    * 
+
+
