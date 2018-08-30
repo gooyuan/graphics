@@ -16,6 +16,10 @@ subroutine (LightFunc) vec4 diffuse(vec3 n){
 
 subroutine uniform LightFunc materialShader;
 
+GLint materialShaderLoc;
+GLuint ambientIndex;
+GLuint diffuseIndex;
+
 void main(){
     color = vColor;
     gl_position = ModelViewProjectionMatrix * vPosition;
