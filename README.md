@@ -16,6 +16,10 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
 3. gitee 与 github
 - commit graph 没有计数, 需要针对每个项目设置本地的 user.email, user.name
 
+4. opengl环境配置
+- glut, freeglut, glew 库
+- 
+
 ### 编译 
 1. g++
 - 编译
