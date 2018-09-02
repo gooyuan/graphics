@@ -1,5 +1,5 @@
 #include <GL/gl.h>
-#include "OpenGL_Primitive.h"
+#include "PrimitiveRender.h"
 // 4 个顶点
 static const GLfloat vertex_positions[] = {
       -1.0f, -1.0f, 0.0f, 1.0f,
@@ -61,6 +61,9 @@ void PrimitiveRender::quadRender(){
 
 }
 
+PrimitiveRender::PrimitiveRender() { }
+
+PrimitiveRender::~PrimitiveRender() { }
 // void PrimitiveRender::vertexRender(){
 //     // 设置元素数组缓存
 //     glGenBuffers(1, ebo);

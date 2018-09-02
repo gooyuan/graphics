@@ -1,7 +1,10 @@
 
 #include <GL/glut.h>
-#include <stdio.h>
-#include "OpenGL_Primitive.h"
+#include <iostream>
+#include <cstdio>
+#include "PrimitiveRender.h"
+
+using namespace std;
 
 void ChangeSize(GLsizei w, GLsizei h) {
     if (w < 1) w = 1;
@@ -27,14 +30,16 @@ void RenderScene() {
     //  1. 当前渲染环境通用性 
     //  2. 渲染代码能否只调用一次, 根据实例来选择 
     //  3. 将所有的渲染代码都渲染出来呢
-    PrimitiveRender render;
+    PrimitiveRender *render = new PrimitiveRender();
     // render.triangleRender();
-    render.quadRender(); 
+    render->quadRender();
     // render.vertexRender();
 
     // DrawMyObjects();
 //    display();
     glFlush();
+
+    delete render;
 }
 
 
@@ -42,6 +47,12 @@ int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(600, 600);
+
+//    float a = 2.0f;
+//    float *p1 = &a;
+//    double bb[5] ;
+//    double *p2 = new double[5];
+//    cout << sizeof(p2) << "-" << sizeof(bb) << "\n";
 
     glutCreateWindow("OpenGL Sophimp");
 
@@ -52,7 +63,6 @@ int main(int argc, char **argv) {
 
     // 这里是关键代码
     glutDisplayFunc(RenderScene);
-
 
     glutMainLoop();
 
