@@ -8,7 +8,7 @@ include_directories("include")
 
 AUX_SOURCE_DIRECTORY("." src_files)
 
-add_executable(gldemo ${src_files} Point.cpp Point.h)
+add_executable(gldemo ${src_files})
 
 # add_executable(CLionOpenGL "src/OpenGL01.cpp")
 # add_executable(CLionOpenGL "src/OpenGL_Draw_Practice.cpp")

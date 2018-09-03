@@ -23,7 +23,9 @@ public:
     /**
      * 生成科特雪花所有点
      */
-    Point* generateKochSnowFlake(Point p1, Point p2, Point p3, int depth);
+    void generateKochSnowFlake(Point p1, Point p2, Point p3, int depth);
+
+    void kochSnowRender();
 
 private:
 
@@ -38,10 +40,17 @@ private:
      * 生成每条边的点
      */
 
-    Point* generateKochCurve(Point* p, int depth);
+    void generateKochCurve(Point p1, Point p2, int depth);
 
-    Point* createSidePoints(Point p1, Point p2);
     int index;
+
+    /**
+     * 每条边临时生成数据
+     */
+    Point tmp[3];
+
+    const double PI = 3.1415926;
+    int len;
 };
 
 
