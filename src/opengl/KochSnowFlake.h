@@ -15,10 +15,10 @@
  *  3. 求出所有的点后, 使用OpenGL将这些点画出来
  *
  */
-class Koch_SnowFlake{
+class KochSnowFlake{
 public:
-    Koch_SnowFlake();
-    ~Koch_SnowFlake();
+    KochSnowFlake();
+    ~KochSnowFlake();
 
     /**
      * 生成科特雪花所有点

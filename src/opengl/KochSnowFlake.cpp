@@ -3,13 +3,13 @@
 //
 
 #include <math.h>
-#include "Koch_SnowFlake.h"
+#include "KochSnowFlake.h"
 
-Koch_SnowFlake::Koch_SnowFlake() {}
+KochSnowFlake::KochSnowFlake() {}
 
-Koch_SnowFlake::~Koch_SnowFlake() {}
+KochSnowFlake::~KochSnowFlake() {}
 
-Point *Koch_SnowFlake::generateKochSnowFlake(Point p1, Point p2, Point p3, int depth) {
+Point *KochSnowFlake::generateKochSnowFlake(Point p1, Point p2, Point p3, int depth) {
     depth = 5;
     int len = static_cast<int>(3 + 3 * (pow(4, depth) - 1));
     kcPoints = new Point[len];
@@ -30,11 +30,13 @@ Point *Koch_SnowFlake::generateKochSnowFlake(Point p1, Point p2, Point p3, int d
 /**
  * 生成曲线
  */
-Point* Koch_SnowFlake::generateKochCurve(Point* p, int depth) {
-
+void KochSnowFlake::generateKochCurve(Point* p, int depth) {
+    if(depth == 0 ){
+        switch
+    }
 }
 
-Point *Koch_SnowFlake::createSidePoints(Point p1, Point p2) {
+Point *KochSnowFlake::createSidePoints(Point p1, Point p2) {
     Point* tmp = new Point[4];
     tmp[1] = p1;
     tmp[2] = p2;

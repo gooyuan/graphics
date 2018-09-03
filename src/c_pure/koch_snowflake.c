@@ -59,7 +59,7 @@ static void KochCurve(int n, int dir) {
 
 int main(int argc, char **argv) {
     w = 2;
-    h = 4;
+    h = 2;
     for (int n = 0; n < 5; n++) {
         image = (char *) malloc(w * h);
         memset(image, ' ', w * h);
