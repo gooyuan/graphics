@@ -6,4 +6,8 @@ void showHeartCharacter();
 
 void showHeartPattern();
 
+void show3DHeart();
+
+void save3DHeart();
+
 #endif
