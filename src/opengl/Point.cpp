@@ -11,8 +11,8 @@ Point::Point(double x, double y) : x(x), y(y) {}
 
 Point Point::rotate(double angle) {
     Point result;
-    result.x = result.x * cos(angle) - result.y * sin(angle);
-    result.y = result.x * sin(angle) + result.y * cos(angle);
+    result.x = x * cos(angle) - y * sin(angle);
+    result.y = x * sin(angle) + y * cos(angle);
     return result;
 }
 

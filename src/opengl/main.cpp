@@ -31,20 +31,19 @@ void RenderScene() {
     //  1. 当前渲染环境通用性 
     //  2. 渲染代码能否只调用一次, 根据实例来选择 
     //  3. 将所有的渲染代码都渲染出来呢
+
+    // Primitive
 //    PrimitiveRender *render = new PrimitiveRender();
     // render.triangleRender();
 //    render->quadRender();
-
-    KochSnowFlake *snowFlake = new KochSnowFlake();
-    // render.vertexRender();
-
-    snowFlake->kochSnowRender();
-    // DrawMyObjects();
-//    display();
-    glFlush();
-
 //    delete render;
+
+    // 科特雪花
+    KochSnowFlake *snowFlake = new KochSnowFlake();
+    snowFlake->kochSnowRender();
     delete snowFlake;
+    
+    glFlush();
 }
 
 

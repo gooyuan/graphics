@@ -42,12 +42,7 @@ private:
 
     void generateKochCurve(Point p1, Point p2, int depth);
 
-    int index;
-
-    /**
-     * 每条边临时生成数据
-     */
-    Point tmp[3];
+    int index = 0;
 
     const double PI = 3.1415926;
     int len;
