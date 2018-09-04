@@ -1,6 +1,7 @@
 //
 // Created by Administrator on 2018/9/1.
 //
+#include "koch_snow_flake.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -57,7 +58,7 @@ static void KochCurve(int n, int dir) {
     }
 }
 
-int main(int argc, char **argv) {
+void showKoch(){
     w = 2;
     h = 2;
     for (int n = 0; n < 5; n++) {
@@ -79,6 +80,5 @@ int main(int argc, char **argv) {
         h = n == 0 ? 4 : h * 3;
         free(image);
     }
-    return 0;
 }
 

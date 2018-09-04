@@ -122,6 +122,33 @@ c_demo/fast:
 	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/build
 .PHONY : c_demo/fast
 
+heart_curve.obj: heart_curve.c.obj
+
+.PHONY : heart_curve.obj
+
+# target to build an object file
+heart_curve.c.obj:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/heart_curve.c.obj
+.PHONY : heart_curve.c.obj
+
+heart_curve.i: heart_curve.c.i
+
+.PHONY : heart_curve.i
+
+# target to preprocess a source file
+heart_curve.c.i:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/heart_curve.c.i
+.PHONY : heart_curve.c.i
+
+heart_curve.s: heart_curve.c.s
+
+.PHONY : heart_curve.s
+
+# target to generate assembly for a file
+heart_curve.c.s:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/heart_curve.c.s
+.PHONY : heart_curve.c.s
+
 koch_snowflake.obj: koch_snowflake.c.obj
 
 .PHONY : koch_snowflake.obj
@@ -149,6 +176,33 @@ koch_snowflake.c.s:
 	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/koch_snowflake.c.s
 .PHONY : koch_snowflake.c.s
 
+main.obj: main.c.obj
+
+.PHONY : main.obj
+
+# target to build an object file
+main.c.obj:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/main.c.obj
+.PHONY : main.c.obj
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles\c_demo.dir\build.make CMakeFiles/c_demo.dir/main.c.s
+.PHONY : main.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -158,9 +212,15 @@ help:
 	@echo ... c_demo
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... heart_curve.obj
+	@echo ... heart_curve.i
+	@echo ... heart_curve.s
 	@echo ... koch_snowflake.obj
 	@echo ... koch_snowflake.i
 	@echo ... koch_snowflake.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
 .PHONY : help
 
 
