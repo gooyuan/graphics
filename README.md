@@ -50,5 +50,16 @@ git pull --allow-unrelated-histories, 一次不行, 根据提示解决
     * man craft demo, 渲染功能, 基本操作已实现
 
 > 命令行编译没问题, 如何在clion上编译不同的模块呢?
+    * cmake, gradle, 构建思想一致, 想想也是, 优秀的思想, 肯定要复用起来
+    * 每个模块一个文件夹, 每个模块存一个 CMakefile.txt
+    * 根目录 add_subdirectory() 构建每个模块
+    * 模块 add_executable 构建可执行应用, add_library() 构建库
 
-### 
+### 2018.9.7
+- 心型曲线方程
+    * 如何将方程用程序实现
+    * 选取范围(x, y), 对应图象的宽高
+    * 按方程迭代, 循环层数: 变量个数减1
+
+- Bresenham 画直线
+    * 没看到具体公式

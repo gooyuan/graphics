@@ -2,9 +2,6 @@
 // Created by Administrator on 2018/9/1.
 //
 #include "koch_snow_flake.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /**
  * 竟然看不明白算法, 没心思去想, 那就就先抄吧

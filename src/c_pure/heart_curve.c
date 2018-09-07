@@ -1,8 +1,6 @@
 
 #include "heart_curve.h"
-#include <stdio.h>
-#include <math.h>
-#include "svpng.inc"
+#include "pub.h"
 
 /**
  * 心型曲线方程:
@@ -71,8 +69,8 @@ void show3DHeart() {
 }
 
 
-void save3DHeart() {
-    FILE *fp = fopen("heart_3d.png", "wb");
+char* save3DHeart() {
+    // FILE *fp = fopen("heart_3d.png", "wb");
     int sw = 512, sh = 512;
     unsigned char rgba[sw * sh * 4], *p = rgba;
     for (int sy = 0; sy < sh; sy++) {
@@ -97,37 +95,8 @@ void save3DHeart() {
             *p++ = (unsigned char) (255);    /* A */
         }
     }
-    svpng(fp, sw, sh, rgba, 1);
-    fclose(fp);
-
+    p = rgba;
+    // svpng(fp, sw, sh, rgba, 1);
+    // fclose(fp);
+    return p;
 }
-
-void test_rgb(void) {
-    unsigned char rgb[256 * 256 * 3], *p = rgb;
-    unsigned x, y;
-    FILE *fp = fopen("rgb.png", "wb");
-    for (y = 0; y < 256; y++)
-        for (x = 0; x < 256; x++) {
-            *p++ = (unsigned char) x;    /* R */
-            *p++ = (unsigned char) y;    /* G */
-            *p++ = 128;                 /* B */
-        }
-    svpng(fp, 256, 256, rgb, 0);
-    fclose(fp);
-}
-
-void test_rgba(void) {
-    unsigned char rgba[256 * 256 * 4], *p = rgba;
-    unsigned x, y;
-    FILE *fp = fopen("rgba.png", "wb");
-    for (y = 0; y < 256; y++)
-        for (x = 0; x < 256; x++) {
-            *p++ = (unsigned char) x;                /* R */
-            *p++ = (unsigned char) y;                /* G */
-            *p++ = 128;                             /* B */
-            *p++ = (unsigned char) ((x + y) / 2);    /* A */
-        }
-    svpng(fp, 256, 256, rgba, 1);
-    fclose(fp);
-}
-
