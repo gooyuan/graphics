@@ -19,8 +19,12 @@ int main(void){
     // image = save3DHeart();
     // svpng(fp, W, H, image, 1);
 
-    FILE *fp = fopen("line_bresenham.png", "wb");
-    image = drawLineWithSimpleBresenham();
+//    FILE *fp = fopen("line_bresenham.png", "wb");
+//    image = drawLineWithSimpleBresenham();
+//    svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("line_sample_bresenham.png", "wb");
+    image = drawLineWithSampleBresenham();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);

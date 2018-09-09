@@ -7,4 +7,5 @@
 
 char* drawLineWithSimpleBresenham();
 
+char* drawLineWithSampleBresenham();
 #endif
