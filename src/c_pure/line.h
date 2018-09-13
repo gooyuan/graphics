@@ -8,4 +8,7 @@
 char* drawLineWithSimpleBresenham();
 
 char* drawLineWithSampleBresenham();
+
+char* drawLineWithAntiAliasing();
+
 #endif

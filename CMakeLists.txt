@@ -8,6 +8,8 @@ ADD_SUBDIRECTORY(src/c_pure)
 
 ADD_SUBDIRECTORY(src/opengl)
 
+ADD_SUBDIRECTORY(src/cpp_testbed)
+
 #AUX_SOURCE_DIRECTORY("." src_files)
 
 #add_executable(gldemo ${src_files})

@@ -23,8 +23,12 @@ int main(void){
 //    image = drawLineWithSimpleBresenham();
 //    svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("line_sample_bresenham.png", "wb");
-    image = drawLineWithSampleBresenham();
+    // FILE *fp = fopen("line_sample_bresenham.png", "wb");
+    // image = drawLineWithSampleBresenham();
+    // svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("line_anti_aliasing_bresenham.png", "wb");
+    image = drawLineWithAntiAliasing();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);
