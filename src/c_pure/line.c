@@ -106,8 +106,23 @@ int capsule(float px, float py, float ax, float ay, float bx, float by, float r)
 }
 
 /**
+ * SDF: Signed Distance Field, 符号距离场
+ * @return 点距线段的距离差
+ */
+float capsuleSDF(float px, float py, float ax, float ay, float bx, float by, float r)
+{
+    float pax = px - ax, pay = py - ay, bax = bx - ax, bay = by - ay;
+    float h = fmaxf(fminf((pax * bax + pay * bay) / (bax * bax + bay * bay), 1.0f), 0.0f);
+    float dx = pax - bax * h, dy = pay - bay * h;
+
+    //sdf改进
+    return r - sqrtf(dx * dx + dy * dy);
+}
+
+/**
  * 对坐标(x,y)进行采样
  * 这里所谓采样的意思就是按胶囊体的面积来确认线的宽度, 将每层圆环的画线的判断抽象出来
+ * @return 是否在绘画区域内
  */
 float sample(float x, float y)
 {
@@ -141,7 +156,7 @@ float sample(float x, float y)
 /**
  * 此算法是为了线的宽度可控, 算法还是 bresenham
  */
-char *drawLineWithSampleBresenham()
+char *drawLineWithSample()
 {
     // 底色初始为了白色
     memset(img, 255, sizeof(img));
@@ -197,4 +212,57 @@ char *drawLineWithAntiAliasing()
         }
     }
     return img;
+}
+
+/**
+ * 对坐标(x,y)进行采样
+ * 这里所谓采样的意思就是按胶囊体的面积来确认线的宽度, 将每层圆环的画线的判断抽象出来
+ * @return sdf值, 用来作颜色比例
+ */
+float sampleSDF(float x, float y)
+{
+    float s = 0.0f, cx = W * 0.5f, cy = H * 0.5f;
+    float dt = 2.0f * PI / 64.0f;
+    for (int j = 0; j < 5; j++)
+    {
+        float r1 = fminf(W, H) * (j + 0.5f) * 0.085f;
+        float r2 = fminf(W, H) * (j + 1.5f) * 0.085f;
+        float t = j * PI / 64, r = (j + 1) * 0.5f;
+        for (int i = 1; i <= 64; i++, t += dt)
+        {
+            float ct = cosf(t), st = sinf(t);
+            // sdf 中心点使用0.5 opacity
+            // 这里经历了两次替换, capsuleSDF 返回的是点到线段的距离差, >0 在外面, 小于0是在内部, 等于0是在绘画点上
+            // r的范围在 0~2.5 之间, 每一层线的宽度, 
+            // s 的范围限定在 0~1 的范围用以补全色值
+            // capsuleSDF返回值 都是在胶囊体内
+            s = fmaxf(s, fminf(capsuleSDF(x, y, cx + r1 * ct, cy - r1 * st, cx + r2 * ct, cy - r2 * st, r ), 1.0f));
+            // 加了这行代码, 是少算了几次
+            if (s) return s;
+        }
+    }
+    return s;
+}
+
+/**
+ * 较于super sample, 效率更高一些, 只做一次sdf运算
+ */
+char* drawLineWithSDF(){
+    // 底色初始为了黑色
+    memset(img, 0, sizeof(img));
+    unsigned char *p = img;
+    float s = 0.0f;
+    for (int y = 0; y < H; y++)
+    {
+        for (int x = 0; x < W; x++, p += 3)
+        {
+            s = sampleSDF(x, y);
+            // p[0] = p[1] = p[2] = (unsigned char)(255 * s);
+            p[0] = (unsigned char)((x % 255) * s);
+            p[1] = (unsigned char)((y % 255) * s);
+            p[2] = (unsigned char)(((x + y) % 255) * s);
+        }
+    }
+    return img;
+
 }

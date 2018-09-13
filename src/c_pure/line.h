@@ -7,8 +7,10 @@
 
 char* drawLineWithSimpleBresenham();
 
-char* drawLineWithSampleBresenham();
+char* drawLineWithSample();
 
 char* drawLineWithAntiAliasing();
+
+char* drawLineWithSDF();
 
 #endif
