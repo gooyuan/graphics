@@ -31,10 +31,12 @@ int main(void){
     // image = drawLineWithAntiAliasing();
     // svpng(fp, W, H, image, 0);
 
-    if(0.0f) printf("0 can print?");
+    // FILE *fp = fopen("line_sdf.png", "wb");
+    // image = drawLineWithSDF();
+    // svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("line_sdf.png", "wb");
-    image = drawLineWithSDF();
+    FILE *fp = fopen("line_sdf_aabb.png", "wb");
+    image = drawLineWithAABBSDF();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);

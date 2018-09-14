@@ -203,7 +203,7 @@ char *drawLineWithAntiAliasing()
             }
             if (sum)
             {
-                float s = sum/(sw*sh);
+                float s = sum / (sw * sh);
                 // p[0] = p[1] = p[2] = (unsigned char)(255 * s);
                 p[0] = (unsigned char)((x % 255) * s);
                 p[1] = (unsigned char)((y % 255) * s);
@@ -233,12 +233,13 @@ float sampleSDF(float x, float y)
             float ct = cosf(t), st = sinf(t);
             // sdf 中心点使用0.5 opacity
             // 这里经历了两次替换, capsuleSDF 返回的是点到线段的距离差, >0 在外面, 小于0是在内部, 等于0是在绘画点上
-            // r的范围在 0~2.5 之间, 每一层线的宽度, 
+            // r的范围在 0~2.5 之间, 每一层线的宽度,
             // s 的范围限定在 0~1 的范围用以补全色值
             // capsuleSDF返回值 都是在胶囊体内
-            s = fmaxf(s, fminf(capsuleSDF(x, y, cx + r1 * ct, cy - r1 * st, cx + r2 * ct, cy - r2 * st, r ), 1.0f));
+            s = fmaxf(s, fminf(capsuleSDF(x, y, cx + r1 * ct, cy - r1 * st, cx + r2 * ct, cy - r2 * st, r), 1.0f));
             // 加了这行代码, 是少算了几次
-            if (s) return s;
+            if (s)
+                return s;
         }
     }
     return s;
@@ -247,9 +248,10 @@ float sampleSDF(float x, float y)
 /**
  * 较于super sample, 效率更高一些, 只做一次sdf运算
  */
-char* drawLineWithSDF(){
-    // 底色初始为了黑色
+char *drawLineWithSDF()
+{
     memset(img, 0, sizeof(img));
+    // 底色初始为了黑色
     unsigned char *p = img;
     float s = 0.0f;
     for (int y = 0; y < H; y++)
@@ -264,5 +266,66 @@ char* drawLineWithSDF(){
         }
     }
     return img;
+}
 
+/**
+ * 这里就见到了 alpha blend, so exciting
+ * 
+ */
+void alphablend(int x, int y, float alpha, float r, float g, float b)
+{
+    // 当前p的坐标
+    unsigned char *p = img + (y * W + x) * 3;
+    // 这里没必要再乘以255了吧? 一会换成彩色的试试有没有必要
+    // p[0] = (unsigned char)(p[0] * (1-alpha) + r * alpha * 255);
+    // p[1] = (unsigned char)(p[1] * (1-alpha) + r * alpha * 255);
+    // p[2] = (unsigned char)(p[2] * (1-alpha) + r * alpha * 255);
+    p[0] = (unsigned char)(p[0] * (1 - alpha) + r * alpha);
+    p[1] = (unsigned char)(p[1] * (1 - alpha) + g * alpha);
+    p[2] = (unsigned char)(p[2] * (1 - alpha) + b * alpha);
+}
+
+/**
+ * 从参数看, 是 capsule 的模型
+ * 
+ * 实际实现是按此模型求一个外切矩形
+ * 减小了计算量, 速度果然快了很多 
+ */
+void lineSDFAABB(float ax, float ay, float bx, float by, float r)
+{
+    int x0 = (int)floorf(fminf(ax, bx) - r);
+    int y0 = (int)floorf(fminf(ay, by) - r);
+    int x1 = (int)ceilf(fmaxf(ax, bx) + r);
+    int y1 = (int)ceilf(fmaxf(ay, by) + r);
+
+    for (int y = y0; y <= y1; y++)
+    {
+        for (int x = x0; x <= x1; x++)
+        {
+            alphablend(x, y, fmax(fminf(capsuleSDF(x, y, ax, ay, bx, by, r), 1.0f), 0.0f), 155.0f, 55.0f, 155.0f);
+        }
+    }
+}
+
+/**
+ * AABB: anti-aligned bounding box
+ */
+char *drawLineWithAABBSDF()
+{
+    memset(img, 0, sizeof(img));
+    float cx = W * 0.5f, cy = H * 0.5f;
+    float DT = 2.0 * PI / 64.0f;
+    for (int i = 0; i < 5; i++)
+    {
+        float r1 = fminf(W, H) * (i + 0.5f) * 0.085f;
+        float r2 = fminf(W, H) * (i + 1.5f) * 0.085f;
+        // t是起始角度, r是每一层胶囊体的r
+        float t = i * PI / 64.0f, r = (i + 1) * 0.5f;
+        for (int j = 0; j <= 64; j++, t += DT)
+        {
+            float ct = cosf(t), st = sinf(t);
+            lineSDFAABB(cx + r1 * ct, cy + r1 * st, cx + r2 * ct, cy + r2 * st, r);
+        }
+    }
+    return img;
 }

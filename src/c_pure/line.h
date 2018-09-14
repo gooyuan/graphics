@@ -13,4 +13,5 @@ char* drawLineWithAntiAliasing();
 
 char* drawLineWithSDF();
 
+char* drawLineWithAABBSDF();
 #endif
