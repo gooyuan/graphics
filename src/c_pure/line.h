@@ -14,4 +14,6 @@ char* drawLineWithAntiAliasing();
 char* drawLineWithSDF();
 
 char* drawLineWithAABBSDF();
+
+unsigned char* drawStitchHeart();
 #endif

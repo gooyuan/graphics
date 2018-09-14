@@ -35,8 +35,12 @@ int main(void){
     // image = drawLineWithSDF();
     // svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("line_sdf_aabb.png", "wb");
-    image = drawLineWithAABBSDF();
+//    FILE *fp = fopen("line_sdf_aabb.png", "wb");
+//    image = drawLineWithAABBSDF();
+//    svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("line_stitch_heart.png", "wb");
+    image = drawStitchHeart();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);
