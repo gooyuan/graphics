@@ -3,6 +3,7 @@
 #include "heart_curve.h"
 #include "line.h"
 #include "svpng.inc"
+#include "light.h"
 
 #define W 512
 #define H 512
@@ -39,8 +40,12 @@ int main(void){
 //    image = drawLineWithAABBSDF();
 //    svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("line_stitch_heart.png", "wb");
-    image = drawStitchHeart();
+    // FILE *fp = fopen("line_stitch_heart.png", "wb");
+    // image = drawStitchHeart();
+    // svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("light_basic.png", "wb");
+    image = drawBasicLight();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);

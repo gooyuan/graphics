@@ -8,7 +8,7 @@
  */
 #include "line.h"
 
-#define PI 3.14159265359f
+extern const float PI;
 #define W 512
 #define H 512
 
@@ -114,7 +114,7 @@ float capsuleSDF(float px, float py, float ax, float ay, float bx, float by, flo
  * 这里所谓采样的意思就是按胶囊体的面积来确认线的宽度, 将每层圆环的画线的判断抽象出来
  * @return 是否在绘画区域内
  */
-float sample(float x, float y) {
+static float sample(float x, float y) {
 
     float s = 0.0f, cx = W * 0.5f, cy = H * 0.5f;
     float dt = 2.0f * PI / 64;
@@ -196,7 +196,7 @@ char *drawLineWithAntiAliasing() {
  * 这里所谓采样的意思就是按胶囊体的面积来确认线的宽度, 将每层圆环的画线的判断抽象出来
  * @return sdf值, 用来作颜色比例
  */
-float sampleSDF(float x, float y) {
+static float sampleSDF(float x, float y) {
     float s = 0.0f, cx = W * 0.5f, cy = H * 0.5f;
     float dt = 2.0f * PI / 64.0f;
     for (int j = 0; j < 5; j++) {
