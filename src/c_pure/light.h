@@ -4,4 +4,6 @@
 
 unsigned char* drawBasicLight();
 
+unsigned char* drawGeometryLight();
+
 #endif

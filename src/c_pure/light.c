@@ -39,11 +39,13 @@ float trace(float ox, float oy, float cosx, float sinx){
     float t = 0.0f;
     for(int i=0; i < MAX_STEP && t < MAX_DISTANCE; i++){
         // ox, oy 来来是光栅格点的坐标
+        // 这里验证的是什么? 在什么范围内就算是统计到了?
+        // 统计到了与没被统计到的比用来区分光的亮度
         float sd = circleSDF(ox + cosx * t, oy + sinx * t, 0.5f, 0.5f, 0.1f);
         if (sd < EPSILON){
             // 结果是用来统计的, 只有2.0 与 0.0两种情况
-            // 可控制当前颜色深度, 2.0 说明当前点
-            return 5.0f;
+            // 可控制当前颜色深度, 2.0 也是调的效果比较好的
+            return 2.0f;
         }
         t += sd;
     }
@@ -67,7 +69,7 @@ static float sample(float x, float y){
         // float a = TWO_PI * rand() / RAND_MAX;        // 均匀采样
         float a = TWO_PI * i / N;                    // 分层采样
         // float a = TWO_PI * (i + (float)rand() / RAND_MAX) / N;                    // 抖动采样
-        // 算出来
+        // 平均值
         sum += trace(x, y, cosf(a), sinf(a));
     }
     return sum / N;
@@ -85,5 +87,13 @@ unsigned char* drawBasicLight(){
             p[2] = 0;
         }
     }
+    return img;
+}
+
+/**
+ * 创建几何发光体
+ */
+unsigned char *drawGeometryLight() {
+
     return img;
 }
