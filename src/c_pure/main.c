@@ -44,8 +44,16 @@ int main(void){
     // image = drawStitchHeart();
     // svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("light_basic.png", "wb");
-    image = drawBasicLight();
+    // FILE *fp = fopen("light_basic.png", "wb");
+    // image = drawBasicLight();
+    // svpng(fp, W, H, image, 0);
+    
+    // FILE *fp = fopen("light_geomitry_basic.png", "wb");
+    // image = drawCSGLight();
+    // svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("light_geomitry_shape.png", "wb");
+    image = drawShapes();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);

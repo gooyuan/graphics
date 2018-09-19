@@ -4,4 +4,7 @@
 
 unsigned char* drawBasicLight();
 
+unsigned char* drawCSGLight();
+
+unsigned char* drawShapes();
 #endif
