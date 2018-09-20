@@ -52,8 +52,20 @@ int main(void){
     // image = drawCSGLight();
     // svpng(fp, W, H, image, 0);
 
-    FILE *fp = fopen("light_geomitry_shape.png", "wb");
-    image = drawShapes();
+    // FILE *fp = fopen("light_geomitry_shape.png", "wb");
+    // image = drawShapes();
+    // svpng(fp, W, H, image, 0);
+
+    // FILE *fp = fopen("light_m.png", "wb");
+    // image = drawM();
+    // svpng(fp, W, H, image, 0);
+
+    // FILE *fp = fopen("light_gradient.png", "wb");
+    // image = drawGradient();
+    // svpng(fp, W, H, image, 0);
+
+    FILE *fp = fopen("light_reflect.png", "wb");
+    image = drawReflect();
     svpng(fp, W, H, image, 0);
 
     fclose(fp);
