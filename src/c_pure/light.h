@@ -14,4 +14,6 @@ unsigned char* drawGradient();
 
 unsigned char* drawReflect();
 
+unsigned char* drawRefract();
+
 #endif

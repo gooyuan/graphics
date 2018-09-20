@@ -10,64 +10,45 @@
 
 static char *image;
 
+void savePic(char* picName, unsigned char* (* save)(),int alpha){
+     FILE *fp = fopen(picName, "wb");
+     image = save();
+     svpng(fp, W, H, image, alpha);
+    fclose(fp);
+}
 int main(void){
     // showKoch();
 //    showHeartCharacter();
 //    showHeartPattern();
     // show3DHeart();
 
-    // FILE *fp = fopen("heart_3d_test.png", "wb");
-    // image = save3DHeart();
-    // svpng(fp, W, H, image, 1);
+//    savePic("heart_3d_test.png", save3DHeart, 1);
 
-//    FILE *fp = fopen("line_bresenham.png", "wb");
-//    image = drawLineWithSimpleBresenham();
-//    svpng(fp, W, H, image, 0);
+//    savePic("line_bresenham.png", drawLineWithSimpleBresenham, 0);
 
-    // FILE *fp = fopen("line_sample.png", "wb");
-    // image = drawLineWithSample();
-    // svpng(fp, W, H, image, 0);
+//    savePic("line_sample.png", drawLineWithSample, 0);
 
-    // FILE *fp = fopen("line_anti_aliasing.png", "wb");
-    // image = drawLineWithAntiAliasing();
-    // svpng(fp, W, H, image, 0);
+//    savePic("line_anti_aliasing.png", drawLineWithAntiAliasing, 0);
 
-    // FILE *fp = fopen("line_sdf.png", "wb");
-    // image = drawLineWithSDF();
-    // svpng(fp, W, H, image, 0);
+//    savePic("line_sdf.png", drawLineWithSDF, 0);
 
-//    FILE *fp = fopen("line_sdf_aabb.png", "wb");
-//    image = drawLineWithAABBSDF();
-//    svpng(fp, W, H, image, 0);
+//    savePic("line_sdf_aabb.png", drawLineWithAABBSDF, 0);
 
-    // FILE *fp = fopen("line_stitch_heart.png", "wb");
-    // image = drawStitchHeart();
-    // svpng(fp, W, H, image, 0);
+//    savePic("line_stitch_heart.png", drawStitchHeart, 0);
 
-    // FILE *fp = fopen("light_basic.png", "wb");
-    // image = drawBasicLight();
-    // svpng(fp, W, H, image, 0);
-    
-    // FILE *fp = fopen("light_geomitry_basic.png", "wb");
-    // image = drawCSGLight();
-    // svpng(fp, W, H, image, 0);
+//    savePic("light_basic.png", drawBasicLight, 0);
 
-    // FILE *fp = fopen("light_geomitry_shape.png", "wb");
-    // image = drawShapes();
-    // svpng(fp, W, H, image, 0);
+//    savePic("light_geomitry_basic.png", drawCSGLight, 0);
 
-    // FILE *fp = fopen("light_m.png", "wb");
-    // image = drawM();
-    // svpng(fp, W, H, image, 0);
+//    savePic("light_geometry_shape.png", drawShapes, 0);
 
-    // FILE *fp = fopen("light_gradient.png", "wb");
-    // image = drawGradient();
-    // svpng(fp, W, H, image, 0);
+//    savePic("light_m.png", drawM, 0);
 
-    FILE *fp = fopen("light_reflect.png", "wb");
-    image = drawReflect();
-    svpng(fp, W, H, image, 0);
+//    savePic("light_gradient.png", drawGradient, 0);
 
-    fclose(fp);
+//    savePic("light_reflect.png", drawReflect, 0);
+
+    savePic("light_refract.png", drawRefract, 0);
+
     return 0;
 }
