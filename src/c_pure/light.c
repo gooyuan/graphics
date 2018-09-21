@@ -382,9 +382,9 @@ Result sceneRefract(float x, float y){
     Result i = { circleSDF(x, y, 0.5f, 0.5f, 0.2f), 0.0f, 0.2f, 1.5f };
     Result j = {  planeSDF(x, y, 0.5f, 0.5f, 0.0f, -1.0f), 0.0f, 0.2f, 1.5f };
     // return unionOp(a, b);
-    // return unionOp(c, intersectOp(d, e));
+    return unionOp(c, intersectOp(d, e));
     // return unionOp(c, subtractOp(f, unionOp(g, h)));
-    return unionOp(c, intersectOp(i, j));
+    // return unionOp(c, intersectOp(i, j));
 }
 
 float sampleRefract(float x, float y) {
