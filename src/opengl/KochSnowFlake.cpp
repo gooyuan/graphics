@@ -15,7 +15,7 @@ KochSnowFlake::~KochSnowFlake() {}
 
 void KochSnowFlake::generateKochSnowFlake(Point a1, Point a2, Point a3, int depth)
 {
-    len = static_cast<int>(3 + 3 * (pow(4, depth) - 1));
+    len = static_cast<int>(3 + 3 * (pow(8, depth) - 1));
     kcPoints = new Point[len];
 
     // cout << "length: " << len << '\n';
