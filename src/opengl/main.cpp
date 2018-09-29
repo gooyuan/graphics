@@ -2,8 +2,10 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <cstdio>
+#include <glad/glad.h>
 #include "PrimitiveRender.h"
 #include "KochSnowFlake.h"
+#include "Shader.h"
 
 using namespace std;
 
@@ -23,9 +25,16 @@ void ChangeSize(GLsizei w, GLsizei h) {
 }
 
 void RenderScene() {
+    if (!gladLoadGLLoader((GLADloadproc)glutGetProcAddress)){
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 0.0);
 
+    // 着色器
+    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    basicShader.use();
     // todo 渲染代码
     // 持续优化: 
     //  1. 当前渲染环境通用性 
