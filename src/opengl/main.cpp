@@ -1,40 +1,37 @@
 
+// glad.h 放在第一行, 就不会与其他文件的#include冲突了
+#include <glad/glad.h>
 #include <GL/glut.h>
 #include <iostream>
 #include <cstdio>
-#include <glad/glad.h>
 #include "PrimitiveRender.h"
 #include "KochSnowFlake.h"
-#include "Shader.h"
 
 using namespace std;
 
 void ChangeSize(GLsizei w, GLsizei h) {
+    // prevent divide by zero, when window is too short
     if (w < 1) w = 1;
     if (h < 1) h = 1;
     printf("%d %d\n", w, h);
-    glViewport(0, 0, w, h);
+    float ratio = 1.0f * w / h;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    if (w <= h)
-        glOrtho(-30.0, 30.0, -30.0 * (GLfloat) h / (GLfloat) w, 30.0 * (GLfloat) h / (GLfloat) w, -50.0, 50.0);
-    else
-        glOrtho(-30.0 * (GLfloat) w / (GLfloat) h, 30.0 * (GLfloat) w / (GLfloat) h, -30.0, 30.0, -50.0, 50.0);
+    // set the window to be the entire window
+    glViewport(0,0,w,h);
+    // if (w <= h)
+    //     glOrtho(-30.0, 30.0, -30.0 * (GLfloat) h / (GLfloat) w, 30.0 * (GLfloat) h / (GLfloat) w, -50.0, 50.0);
+    // else
+    //     glOrtho(-30.0 * (GLfloat) w / (GLfloat) h, 30.0 * (GLfloat) w / (GLfloat) h, -30.0, 30.0, -50.0, 50.0);
+    gluPerspective(45, ratio, 1, 1000);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    // glLoadIdentity();
 }
 
 void RenderScene() {
-    if (!gladLoadGLLoader((GLADloadproc)glutGetProcAddress)){
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 0.0);
 
-    // 着色器
-    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
-    basicShader.use();
     // todo 渲染代码
     // 持续优化: 
     //  1. 当前渲染环境通用性 
@@ -42,17 +39,27 @@ void RenderScene() {
     //  3. 将所有的渲染代码都渲染出来呢
 
     // Primitive
-//    PrimitiveRender *render = new PrimitiveRender();
-    // render.triangleRender();
+   PrimitiveRender *render = new PrimitiveRender();
+    render -> triangleRender();
 //    render->quadRender();
-//    delete render;
+   delete render;
 
     // 科特雪花
-    KochSnowFlake *snowFlake = new KochSnowFlake();
-    snowFlake->kochSnowRender();
-    delete snowFlake;
-    
-    glFlush();
+    // KochSnowFlake *snowFlake = new KochSnowFlake();
+    // snowFlake->kochSnowRender();
+    // delete snowFlake;
+
+    // // 使用顶点着色器
+    // unsigned int VAO, VBO;
+    // glGenVertexArrays(1, &VAO);
+    // glGenBuffers(1, &VBO);
+    // glBindVertexArray(VAO);
+    // glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    // glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, 3 * sizeof(double), (void*)0);
+    // glEnableVertexAttribArray(0);
+    // glBindVertexArray(VAO);
+
 }
 
 
@@ -69,10 +76,18 @@ int main(int argc, char **argv) {
 
     glutCreateWindow("OpenGL Sophimp");
 
+    // 初始化代码是有顺序的, 在这里可以正确初始化
+    // 在glut初始化之后
+    if(!gladLoadGL()) {
+        std::cout << "Something went wrong!\n";
+        exit(-1);
+    }
+    printf("OpenGL Version %d.%d loaded\n", GLVersion.major, GLVersion.minor);
+
     glClearColor(0.51, 0.51, 0.51, 0.5);
 
-    // 可以将函数当作参数传递, 不管是C,C++都是自有的么?
-    glutReshapeFunc(ChangeSize);
+    // 光栅化到窗口的操作
+    // glutReshapeFunc(ChangeSize);
 
     // 这里是关键代码
     glutDisplayFunc(RenderScene);

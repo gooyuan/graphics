@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include <iostream>
-#include <GL/gl.h>
+#include <glad/glad.h>
 #include "KochSnowFlake.h"
 
 using namespace std;
@@ -77,14 +77,17 @@ void KochSnowFlake::kochSnowRender()
 {
     // todo OpenGL 的坐标不是单位坐标吗? 为何划定了一个600*600, 这里使用 -10, 就能占据 1/3 个窗口
     generateKochSnowFlake(Point(-10.0, 10.0), Point(10.0, 10.0), Point(0, -10), 5);
-    glColor3f(0.7, 0.5, 0.2);
+    // glColor3f(0.7, 0.5, 0.2);
     // 只是简单的画三角形, 每个顶点处理一下, 会有什么样的效果?
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < len; i++)
     {
-        glVertex2f(kcPoints[i].x, kcPoints[i].y);
+        // glVertex2f(kcPoints[i].x, kcPoints[i].y);
+        glVertex3f(kcPoints[i].x, kcPoints[i].y, kcPoints[i].z);
     }
     glEnd();
 
     delete kcPoints;
+
+    glFlush();
 }

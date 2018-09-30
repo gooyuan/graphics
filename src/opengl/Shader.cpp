@@ -1,8 +1,8 @@
 
 #include "Shader.h"
-#include <glad/glad.h>
 #include <sstream>
 #include <fstream>
+#include <glad/glad.h>
 
 Shader::Shader(const char* vertextPath, const char* fragmentPath) {
 
@@ -39,18 +39,15 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
     unsigned int vertex, fragment;
     
     // vertex shader
-    std::cout << "create vertex shader: \n" << std::endl;
     vertex = glCreateShader(GL_VERTEX_SHADER);
-    std::cout << "shader source vertex shader: \n" << std::endl;
+    // std::cout << "shader source vertex shader: \n" << std::endl;
     glShaderSource(vertex, 1, &vShaderCode, NULL);
-    std::cout << "compile vertex shader: \n" << std::endl;
     glCompileShader(vertex);
 
     // print compile errors if any
     checkCompileError(vertex, "VERTEX");
 
     // fragment shader
-    std::cout << "compile fragment shader: \n" << std::endl;
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
@@ -59,7 +56,6 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
     checkCompileError(fragment, "FRAGMENT");
 
     // shader program
-    std::cout << "link shader: \n" << std::endl;
     programId = glCreateProgram();
     glAttachShader(programId, vertex);
     glAttachShader(programId, fragment);

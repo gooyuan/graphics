@@ -1,11 +1,12 @@
-#include <GL/gl.h>
+#include <glad/glad.h>
 #include "PrimitiveRender.h"
+#include "Shader.h"
 // 4 个顶点
-static const GLfloat vertex_positions[] = {
-      -1.0f, -1.0f, 0.0f, 1.0f,
-      1.0f, -1.0f, 0.0f, 1.0f,
-      -1.0f, 1.0f, 0.0f, 1.0f,
-      -1.0f, -1.0f, 0.0f, 1.0f
+static const GLfloat vertices[] = {
+      -0.5f, -0.5f, 0.0f, 1.0f,
+      0.5f, -0.5f, 0.0f, 1.0f,
+      0.0f, 0.5f, 0.0f, 1.0f,
+    //   0.5f, 0.5f, 0.0f, 1.0f
   };
 
   // 每个顶点颜色
@@ -20,20 +21,33 @@ static const GLfloat vertex_colors[] = {
 static const GLushort vertex_indices[] = { 0, 1, 2};
 
 void PrimitiveRender::triangleRender(){
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black and opaque
-    glClear(GL_COLOR_BUFFER_BIT);         // Clear the color buffer
+    unsigned int VAO, VBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &VBO);
 
-    // Draw a Red 1x1 Square centered at origin
-    glBegin(GL_QUADS);              // Each set of 4 vertices form a quad
-    glColor3f(1.0f, 0.0f, 0.0f); // Red
-    glVertex2f(-0.5f, -0.5f);    // x, y
-    glVertex2f(0.5f, -0.5f);
-    glVertex2f(0.5f, 0.5f);
-    glVertex2f(-0.5f, 0.5f);
-    glEnd();
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glFlush();  // Render now
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    // todo 此函数作用与 glEnableVertexArrayAttrib 有何区别
+    glEnableVertexAttribArray(0);
 
+    // 释放绑定
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // 着色器
+    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    basicShader.use();
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 4);
+
+    glFlush();
 }
 
 void PrimitiveRender::quadRender(){
