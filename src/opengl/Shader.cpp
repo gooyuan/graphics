@@ -18,6 +18,7 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
         // open file
         vShaderFile.open(vertextPath);
         fShaderFile.open(fragmentPath);
+//        std::cout << vertextPath << std::endl << vertextPath << std::endl;
         std::stringstream vShaderStream, fShaderStream;
         // read file's buffer contents into streams
         vShaderStream << vShaderFile.rdbuf();
@@ -28,7 +29,7 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
         // convert stream into string 
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
-
+//        std::cout << vertexCode << std::endl << fragmentCode << std::endl;
     }catch (std::ifstream::failure e){
         std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
     }

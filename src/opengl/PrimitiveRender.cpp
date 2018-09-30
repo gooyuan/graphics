@@ -1,56 +1,71 @@
 #include <glad/glad.h>
 #include "PrimitiveRender.h"
 #include "Shader.h"
+
 // 4 个顶点
 static const GLfloat vertices[] = {
-      -0.5f, -0.5f, 0.0f, 1.0f,
-      0.5f, -0.5f, 0.0f, 1.0f,
-      0.0f, 0.5f, 0.0f, 1.0f,
-    //   0.5f, 0.5f, 0.0f, 1.0f
-  };
+        -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.0f, 1.0f,
+        0.0f, 0.5f, 0.0f, 1.0f,
+//        0.5f, 0.5f, 0.0f, 1.0f
+};
 
-  // 每个顶点颜色
+// 每个顶点颜色
 static const GLfloat vertex_colors[] = {
-      1.0f, 1.0f, 1.0f, 1.0f,
-      1.0f, 1.0f, 0.0f, 1.0f,
-      1.0f, 0.0f, 1.0f, 1.0f,
-      0.0f, 1.0f, 1.0f, 1.0f
-  };
+        1.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 1.0f, 0.0f, 1.0f,
+//        0.5f, 0.5f, 0.5f, 1.0f,
+};
 
-  // 三个索引值
-static const GLushort vertex_indices[] = { 0, 1, 2};
+// 三个索引值
+static const GLushort vertex_indices[] = {0, 1, 2};
 
-void PrimitiveRender::triangleRender(){
-    unsigned int VAO, VBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &VBO);
+void PrimitiveRender::triangleRender() {
+    GLuint VAO, VBO, VCO;
+//    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VAO);
+//    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &VCO);
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // bind, bufferData, pointer 顺序执行, enable可以在不管顺序
+    glBindBuffer(GL_ARRAY_BUFFER, VAO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    // todo 此函数作用与 glEnableVertexArrayAttrib 有何区别
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    // 释放绑定
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, VCO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_colors), vertex_colors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
+    glEnableVertexAttribArray(1);
 
-    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // 释放绑定
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//    glBindVertexArray(0);
+
+//    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT);
 
     // 着色器
-    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+//    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    Shader basicShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+                       "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
     basicShader.use();
-    glBindVertexArray(VAO);
+
+//    int vertexColorLocation = glGetUniformLocation(basicShader.programId, "vertexColor");
+//    std::cout << vertexColorLocation << std::endl;
+
+//    glBindVertexArray(VAO);
+    glBindAttribLocation(basicShader.programId, 0, "aPos");
+    glBindAttribLocation(basicShader.programId, 1, "vertexColor");
+
+
     glDrawArrays(GL_TRIANGLES, 0, 4);
 
     glFlush();
 }
 
-void PrimitiveRender::quadRender(){
+void PrimitiveRender::quadRender() {
     //画四边形
     glBegin(GL_QUADS);
     glColor3f(0.7, 0.5, 0.2);
@@ -75,9 +90,9 @@ void PrimitiveRender::quadRender(){
 
 }
 
-PrimitiveRender::PrimitiveRender() { }
+PrimitiveRender::PrimitiveRender() {}
 
-PrimitiveRender::~PrimitiveRender() { }
+PrimitiveRender::~PrimitiveRender() {}
 // void PrimitiveRender::vertexRender(){
 //     // 设置元素数组缓存
 //     glGenBuffers(1, ebo);
