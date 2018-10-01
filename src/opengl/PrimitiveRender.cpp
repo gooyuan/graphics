@@ -7,7 +7,7 @@ static const GLfloat vertices[] = {
         -0.5f, -0.5f, 0.0f, 1.0f,
         0.5f, -0.5f, 0.0f, 1.0f,
         0.0f, 0.5f, 0.0f, 1.0f,
-//        0.5f, 0.5f, 0.0f, 1.0f
+        0.5f, 0.5f, 0.0f, 1.0f
 };
 
 // 每个顶点颜色
@@ -15,28 +15,39 @@ static const GLfloat vertex_colors[] = {
         1.0f, 0.0f, 0.0f, 1.0f,
         0.0f, 0.0f, 1.0f, 1.0f,
         0.0f, 1.0f, 0.0f, 1.0f,
-//        0.5f, 0.5f, 0.5f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f,
 };
 
+static float firstTriangle[] = {
+        -0.9f, -0.5f, 0.0f, 1.0f, // left
+        -0.0f, -0.5f, 0.0f, 1.0f, // right
+        -0.45f, 0.5f, 0.0f, 1.0f // top
+};
+
+static float secondTriangle[] = {
+        0.0f, -0.5f, 0.0f,  1.0f, // left
+        0.9f, -0.5f, 0.0f,  1.0f, // right
+        0.45f, 0.5f, 0.0f,  1.0f // top
+};
 // 三个索引值
 static const GLushort vertex_indices[] = {0, 1, 2};
 
 void PrimitiveRender::triangleRender() {
-    GLuint VAO, VBO, VCO;
-//    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VAO);
-//    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &VCO);
+    GLuint VAOs[2], VBOs[2];
+    glGenVertexArrays(2, VAOs);
+    glGenBuffers(2, VBOs);
 
     // bind, bufferData, pointer 顺序执行, enable可以在不管顺序
-    glBindBuffer(GL_ARRAY_BUFFER, VAO);
+    glBindVertexArray(VAOs[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VCO);
+//    glBindVertexArray(VAOs[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_colors), vertex_colors, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(1);
 
     // 释放绑定
@@ -55,13 +66,21 @@ void PrimitiveRender::triangleRender() {
 //    int vertexColorLocation = glGetUniformLocation(basicShader.programId, "vertexColor");
 //    std::cout << vertexColorLocation << std::endl;
 
-//    glBindVertexArray(VAO);
+    // 确保在 shader 编译之后
     glBindAttribLocation(basicShader.programId, 0, "aPos");
     glBindAttribLocation(basicShader.programId, 1, "vertexColor");
 
+    // 线框模式
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//    glBindVertexArray(VAOs[0]);
+    glBindBuffer(0, VBOs[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    glDrawArrays(GL_TRIANGLES, 0, 4);
+//    glBindVertexArray(VAOs[1]);
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
 
+//    glDeleteVertexArrays(2, VAOs);
+    glDeleteBuffers(2, VBOs);
     glFlush();
 }
 
@@ -93,39 +112,3 @@ void PrimitiveRender::quadRender() {
 PrimitiveRender::PrimitiveRender() {}
 
 PrimitiveRender::~PrimitiveRender() {}
-// void PrimitiveRender::vertexRender(){
-//     // 设置元素数组缓存
-//     glGenBuffers(1, ebo);
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
-//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertex_indices), vertex_indices, GL_STATIC_DRAW);
-
-//     // 设置顶点属性
-//     glGenVertextArrays(1, vao);
-//     glBindVertexArray(vao[0]);
-//     glGenBuffers(1, vbo);
-//     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-//     glBufferData(GL_ARRAY_BUFFER,
-//         sizeof(vertex_positions) + sizeof(vertex_colors), 
-//         NULL, GL_STATIC_DRAW);
-//     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertex_positions), vertex_positions);
-//     glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertex_positions), sizeof(vertex_colors), vertex_colors);
-
-//     // 绘制
-//     // draw arrays
-//     model_matrix = vmath::translation(-3.0f, 0.0f, -5.0f);
-//     glUniformMatrix4fv(render_model_matrix_loc, 4, GL_FALSE, model_matrix);
-//     glDrawArrays(GL_TRIANGLES, 0, 3);
-//     // draw elements
-//     model_matrix = vmath::translation(-1.0f, 0.0f, -5.0f);
-//     glUniformMatrix4fv(render_model_matrix_loc, 4, GL_FALSE, model_matrix);
-//     glDrawElements(GL_TRIANGLES, 3, GL_UNSINGLED_SHORT, NULL);
-//     // draw element base vertex
-//     model_matrix = vmath::translation(1.0f, 0.0f, -5.0f);
-//     glUniformMatrix4fv(render_model_matrix_loc, 4, GL_FALSE, model_matrix);
-//     glDrawElementsBaseVertex(GL_TRIANGLES, 3, GL_UNSINGLED_SHORT, NULL, 1);
-//     // draw arrays instanced
-//     model_matrix = vmath::translation(3.0f, 0.0f, -5.0f);
-//     glUniformMatrix4fv(render_model_matrix_loc, 4, GL_FALSE, model_matrix);
-//     glDrawArraysInstanced(GL_TRIANGLES, 0, 3, 1);
-
-// }
