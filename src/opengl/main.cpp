@@ -6,6 +6,7 @@
 #include <cstdio>
 #include "PrimitiveRender.h"
 #include "KochSnowFlake.h"
+#include "TextureRender.h"
 
 using namespace std;
 
@@ -39,27 +40,19 @@ void RenderScene() {
     //  3. 将所有的渲染代码都渲染出来呢
 
     // Primitive
-   PrimitiveRender *render = new PrimitiveRender();
-    render -> triangleRender();
+//   PrimitiveRender *render = new PrimitiveRender();
+//    render -> triangleRender();
 //    render->quadRender();
-   delete render;
+//   delete render;
 
     // 科特雪花
     // KochSnowFlake *snowFlake = new KochSnowFlake();
     // snowFlake->kochSnowRender();
     // delete snowFlake;
 
-    // // 使用顶点着色器
-    // unsigned int VAO, VBO;
-    // glGenVertexArrays(1, &VAO);
-    // glGenBuffers(1, &VBO);
-    // glBindVertexArray(VAO);
-    // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    // glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, 3 * sizeof(double), (void*)0);
-    // glEnableVertexAttribArray(0);
-    // glBindVertexArray(VAO);
-
+    // texture
+    TextureRender textureRender;
+    textureRender.render();
 }
 
 
