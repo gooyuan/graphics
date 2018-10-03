@@ -10,6 +10,8 @@
 
 using namespace std;
 
+void processKeyEvent(int key, int x, int y);
+
 void ChangeSize(GLsizei w, GLsizei h) {
     // prevent divide by zero, when window is too short
     if (w < 1) w = 1;
@@ -29,6 +31,7 @@ void ChangeSize(GLsizei w, GLsizei h) {
     // glLoadIdentity();
 }
 
+static TextureRender *textureRenderPtr;
 void RenderScene() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 0.0);
@@ -49,10 +52,26 @@ void RenderScene() {
     // KochSnowFlake *snowFlake = new KochSnowFlake();
     // snowFlake->kochSnowRender();
     // delete snowFlake;
-
+    textureRenderPtr = new TextureRender();
     // texture
-    TextureRender textureRender;
-    textureRender.render();
+    textureRenderPtr->render();
+
+}
+
+static float mixValue = 0.0f;
+void processKeyEvent(int key, int x, int y) {
+    switch (key){
+        case GLUT_KEY_DOWN:
+            mixValue -= 0.1f;
+            mixValue = mixValue > 0.0f ? mixValue : 0.0f;
+            break;
+        case GLUT_KEY_UP:
+            mixValue += 0.1f;
+            mixValue = mixValue < 1.0f ? mixValue : 1.0f;
+            break;
+        default:break;
+    }
+    textureRenderPtr->onMixValueChange(mixValue);
 }
 
 
@@ -84,6 +103,8 @@ int main(int argc, char **argv) {
 
     // 这里是关键代码
     glutDisplayFunc(RenderScene);
+
+    glutSpecialFunc(processKeyEvent);
 
     glutMainLoop();
 

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <glad/glad.h>
 
-Shader::Shader(const char* vertextPath, const char* fragmentPath) {
+Shader::Shader(const char* vertexPath, const char* fragmentPath) {
 
     // 1. retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
@@ -16,7 +16,7 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
     fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {
         // open file
-        vShaderFile.open(vertextPath);
+        vShaderFile.open(vertexPath);
         fShaderFile.open(fragmentPath);
 //        std::cout << vertextPath << std::endl << vertextPath << std::endl;
         std::stringstream vShaderStream, fShaderStream;
@@ -39,16 +39,16 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
     // 2. compile shaders
     unsigned int vertex, fragment;
     
-    // vertex shader
+    // vertex shaderPtr
     vertex = glCreateShader(GL_VERTEX_SHADER);
-    // std::cout << "shader source vertex shader: \n" << std::endl;
+    // std::cout << "shaderPtr source vertex shaderPtr: \n" << std::endl;
     glShaderSource(vertex, 1, &vShaderCode, NULL);
     glCompileShader(vertex);
 
     // print compile errors if any
     checkCompileError(vertex, "VERTEX");
 
-    // fragment shader
+    // fragment shaderPtr
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
@@ -56,7 +56,7 @@ Shader::Shader(const char* vertextPath, const char* fragmentPath) {
     // print compile errors if any
     checkCompileError(fragment, "FRAGMENT");
 
-    // shader program
+    // shaderPtr program
     programId = glCreateProgram();
     glAttachShader(programId, vertex);
     glAttachShader(programId, fragment);
@@ -104,3 +104,5 @@ void Shader::checkCompileError(unsigned int shader, std::string type){
         }
     }
 }
+
+

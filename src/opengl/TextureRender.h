@@ -10,8 +10,9 @@ class TextureRender {
 
 public:
     void render();
-private:
-};
 
+    void onMixValueChange(float mixValue);
+
+};
 
 #endif //CLIONOPENGL_TEXTURERENDER_H

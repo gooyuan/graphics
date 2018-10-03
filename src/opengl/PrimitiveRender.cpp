@@ -58,15 +58,15 @@ void PrimitiveRender::triangleRender() {
 //    glClear(GL_COLOR_BUFFER_BIT);
 
     // 着色器
-//    Shader basicShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+//    Shader basicShader("shaderPtr/basic_vertex.glsl", "shaderPtr/basic_fragment.glsl");
     Shader basicShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-                       "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
+                       "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shaderPtr\\basic_fragment.glsl");
     basicShader.use();
 
 //    int vertexColorLocation = glGetUniformLocation(basicShader.programId, "vertexColor");
 //    std::cout << vertexColorLocation << std::endl;
 
-    // 确保在 shader 编译之后
+    // 确保在 shaderPtr 编译之后
     glBindAttribLocation(basicShader.programId, 0, "aPos");
     glBindAttribLocation(basicShader.programId, 1, "vertexColor");
 

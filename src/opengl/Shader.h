@@ -9,9 +9,7 @@ class Shader{
 public:
     // 程序ID
     unsigned int programId;
-
-    // todo char -> GLChar
-    Shader(const char* vertextPath, const char* fragmentPath);
+    Shader(const char* vertexPath, const char* fragmentPath);
 
     void use();
 
