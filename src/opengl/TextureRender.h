@@ -13,6 +13,9 @@ public:
 
     void onMixValueChange(float mixValue);
 
+private:
+    void transformationRender(unsigned int shaderHandler);
+
 };
 
 #endif //CLIONOPENGL_TEXTURERENDER_H

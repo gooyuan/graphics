@@ -7,6 +7,9 @@
 #include "Shader.h"
 #include <iostream>
 #include "stb_image.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 static const GLfloat vertices[] = {
         // vertex               colors              // texture coordinate
@@ -28,10 +31,9 @@ static unsigned int indices[] = {
         0, 2, 3
 };
 
-static Shader *shaderPtr;
 static float mixValue = 0.3f;
 void TextureRender::render() {
-
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     unsigned int VAO, VBO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -69,8 +71,8 @@ void TextureRender::render() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     // set texture filtering parameter
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
@@ -106,7 +108,6 @@ void TextureRender::render() {
 
     Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
                      "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
-    shaderPtr = &ourShader;
 //    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
 //                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shaderPtr\\basic_fragment.glsl");
     ourShader.use();
@@ -115,6 +116,8 @@ void TextureRender::render() {
     ourShader.setInt("texture2", 1);
     ourShader.setFloat("mixAlpha", mixValue);
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    transformationRender(ourShader.programId);
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -127,4 +130,15 @@ void TextureRender::onMixValueChange(float value) {
     std::cout << "mixValue: " << value << std::endl;
     mixValue = value;
     render();
+}
+
+void TextureRender::transformationRender(unsigned int shaderHandler) {
+    glm::mat4 transform(1.0f);
+//    transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+    transform = glm::rotate(transform, mixValue, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    unsigned int transformLoc = glGetUniformLocation(shaderHandler, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+//    transform = glm::rotate(transform, )
+
 }
