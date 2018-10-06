@@ -56,6 +56,7 @@ void RenderScene() {
     // texture
     textureRenderPtr->render();
 
+    glutSwapBuffers();
 }
 
 static float mixValue = 0.0f;
@@ -74,10 +75,18 @@ void processKeyEvent(int key, int x, int y) {
     textureRenderPtr->onMixValueChange(mixValue);
 }
 
+void timeDelayCallback(int value){
+    std::cout << "value: "  << value << std::endl;
+
+    textureRenderPtr->onMixValueChange(mixValue);
+
+    glutPostRedisplay();
+    glutTimerFunc(15, timeDelayCallback, 1);
+}
 
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(600, 600);
 
 //    float a = 2.0f;
@@ -104,7 +113,10 @@ int main(int argc, char **argv) {
     // 这里是关键代码
     glutDisplayFunc(RenderScene);
 
+    // 键盘事件
     glutSpecialFunc(processKeyEvent);
+
+    glutTimerFunc(15, timeDelayCallback, 1);
 
     glutMainLoop();
 

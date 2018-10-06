@@ -16,6 +16,7 @@ public:
 private:
     void transformationRender(unsigned int shaderHandler);
 
+    const float PI = 3.141592653f;
 };
 
 #endif //CLIONOPENGL_TEXTURERENDER_H

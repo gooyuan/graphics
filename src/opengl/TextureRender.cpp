@@ -123,22 +123,27 @@ void TextureRender::render() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 //    glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    glFlush();
+//    glFlush();
 }
 
 void TextureRender::onMixValueChange(float value) {
     std::cout << "mixValue: " << value << std::endl;
-    mixValue = value;
+    mixValue += 0.001f;
+    if (mixValue > 1.0f){
+        mixValue = 0.1f;
+    }
     render();
 }
 
 void TextureRender::transformationRender(unsigned int shaderHandler) {
     glm::mat4 transform(1.0f);
+    float angle = mixValue * 2 * PI;
 //    transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
-    transform = glm::rotate(transform, mixValue, glm::vec3(0.0f, 0.0f, 1.0f));
+    transform = glm::rotate(transform, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 
     unsigned int transformLoc = glGetUniformLocation(shaderHandler, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 //    transform = glm::rotate(transform, )
+    //
 
 }

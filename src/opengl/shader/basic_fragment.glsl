@@ -13,7 +13,7 @@ uniform float mixAlpha;
 
 void main(){
 //    FragColor = aColor;
-//    FragColor = texture(texture1, TexCood) * vec4(aColor, 1.0f);
+    FragColor = texture(texture1, TexCood) * vec4(aColor, 1.0f);
     FragColor = mix(texture(texture1, TexCood) * vec4(aColor, 1.0f), texture(texture2, TexCood), mixAlpha);
 }
 
