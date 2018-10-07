@@ -22,19 +22,20 @@ void ChangeSize(GLsizei w, GLsizei h) {
     glLoadIdentity();
     // set the window to be the entire window
     glViewport(0,0,w,h);
-    // if (w <= h)
-    //     glOrtho(-30.0, 30.0, -30.0 * (GLfloat) h / (GLfloat) w, 30.0 * (GLfloat) h / (GLfloat) w, -50.0, 50.0);
-    // else
-    //     glOrtho(-30.0 * (GLfloat) w / (GLfloat) h, 30.0 * (GLfloat) w / (GLfloat) h, -30.0, 30.0, -50.0, 50.0);
-    gluPerspective(45, ratio, 1, 1000);
-    glMatrixMode(GL_MODELVIEW);
-    // glLoadIdentity();
+//     if (w <= h)
+//         glOrtho(-30.0, 30.0, -30.0 * (GLfloat) h / (GLfloat) w, 30.0 * (GLfloat) h / (GLfloat) w, -50.0, 50.0);
+//     else
+//         glOrtho(-30.0 * (GLfloat) w / (GLfloat) h, 30.0 * (GLfloat) w / (GLfloat) h, -30.0, 30.0, -50.0, 50.0);
+//    gluPerspective(45, ratio, 1, 1000);
+//    glMatrixMode(GL_MODELVIEW);
+//     glLoadIdentity();
 }
 
 static TextureRender *textureRenderPtr;
 void RenderScene() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 0.0);
+    glEnable(GL_DEPTH_TEST);
 
     // todo 渲染代码
     // 持续优化: 
@@ -108,7 +109,7 @@ int main(int argc, char **argv) {
     glClearColor(0.51, 0.51, 0.51, 0.5);
 
     // 光栅化到窗口的操作
-    // glutReshapeFunc(ChangeSize);
+     glutReshapeFunc(ChangeSize);
 
     // 这里是关键代码
     glutDisplayFunc(RenderScene);

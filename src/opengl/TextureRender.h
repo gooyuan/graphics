@@ -14,7 +14,7 @@ public:
     void onMixValueChange(float mixValue);
 
 private:
-    void transformationRender(unsigned int shaderHandler);
+    void transformationRender(unsigned int shaderHandler, int index);
 
     const float PI = 3.141592653f;
 };
