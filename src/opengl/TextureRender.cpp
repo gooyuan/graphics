@@ -196,7 +196,7 @@ void TextureRender::onMixValueChange(float value) {
 
 void TextureRender::transformationRender(unsigned int shaderHandler, int index) {
     glm::mat4 transform(1.0f);
-    float angle = 20 * index * mixValue;
+    float angle = 20 * (index + 1) * mixValue;
 //    transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
 //    transform = glm::rotate(transform, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 
