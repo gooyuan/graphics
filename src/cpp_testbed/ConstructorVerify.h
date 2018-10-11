@@ -13,6 +13,7 @@ class ConstructorVerify{
     public:
         ConstructorVerify(int x, int y, int z);
         int _x, _y, _z;
+        int* spiralOrder(int matrix[3][3], int matrixRowSize, int matrixColSize);
 
     private:
 };

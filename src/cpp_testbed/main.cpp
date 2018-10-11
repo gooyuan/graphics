@@ -9,7 +9,10 @@ int main(int argc, char const *argv[])
 
     ConstructorVerify cos(5,2,3);
     
-    cout << cos._x << "," << cos._y << "," << cos._z <<endl;
+    int matrix[3][3] = {1,2,3,4,5,6, 7,8,9};
+    std::cout << "start: " << std::endl;
+    int (*ptr)[3] = matrix;
+    cos.spiralOrder(matrix, 3, 3);
 
     return 0;
 }
