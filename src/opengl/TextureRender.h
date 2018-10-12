@@ -9,14 +9,23 @@
 class TextureRender {
 
 public:
+    enum KeyEvent{
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
     void render();
 
-    void onMixValueChange(float mixValue);
+    void onMixValueChange(KeyEvent event);
+
+    void onDisplayLoop(int elapseTime);
 
 private:
     void transformationRender(unsigned int shaderHandler, int index);
 
     const float PI = 3.141592653f;
+
 };
 
 #endif //CLIONOPENGL_TEXTURERENDER_H

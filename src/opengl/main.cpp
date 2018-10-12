@@ -62,27 +62,37 @@ void RenderScene() {
 
 static float mixValue = 0.0f;
 void processKeyEvent(int key, int x, int y) {
+    TextureRender::KeyEvent event = TextureRender::UP;
     switch (key){
         case GLUT_KEY_DOWN:
             mixValue -= 0.1f;
             mixValue = mixValue > 0.0f ? mixValue : 0.0f;
+            event = TextureRender::DOWN;
             break;
         case GLUT_KEY_UP:
+            event = TextureRender::UP;
             mixValue += 0.1f;
             mixValue = mixValue < 1.0f ? mixValue : 1.0f;
             break;
+        case GLUT_KEY_LEFT:
+            event = TextureRender::LEFT;
+            break;
+        case GLUT_KEY_RIGHT:
+            event = TextureRender::RIGHT;
+            break;
+
         default:break;
     }
-    textureRenderPtr->onMixValueChange(mixValue);
+    textureRenderPtr->onMixValueChange(event);
 }
 
-void timeDelayCallback(int value){
-    std::cout << "value: "  << value << std::endl;
+void timeDelayCallback(int elapseTime){
 
-    textureRenderPtr->onMixValueChange(mixValue);
+    textureRenderPtr->onDisplayLoop(elapseTime);
 
-    glutPostRedisplay();
-    glutTimerFunc(15, timeDelayCallback, 1);
+//    glutPostRedisplay();
+
+//    glutTimerFunc(15, timeDelayCallback, 1);
 }
 
 int main(int argc, char **argv) {
@@ -117,7 +127,9 @@ int main(int argc, char **argv) {
     // 键盘事件
     glutSpecialFunc(processKeyEvent);
 
-    glutTimerFunc(15, timeDelayCallback, 1);
+//    glutTimerFunc(15, timeDelayCallback, 1);
+
+    timeDelayCallback(glutGet(GLUT_ELAPSED_TIME));
 
     glutMainLoop();
 

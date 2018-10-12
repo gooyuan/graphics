@@ -12,54 +12,54 @@
 #include "glm/gtc/type_ptr.hpp"
 
 float vertices_cube[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
 };
 static const GLfloat vertices[] = {
         // vertex               colors              // texture coordinate
-        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // left-bottom
-        -0.5f, 0.5f, 0.0f,      0.0f, 0.0f, 1.0f,   0.0f, 2.0f,  // left-top
-        0.5f, 0.5f, 0.0f,       0.0f, 1.0f, 0.0f,   2.0f, 2.0f,  // right-top
-        0.5f, -0.5f, 0.0f,      0.5f, 0.5f, 0.5f,   2.0f, 0.0f   // right-bottom
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // left-bottom
+        -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 2.0f,  // left-top
+        0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 2.0f, 2.0f,  // right-top
+        0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 2.0f, 0.0f   // right-bottom
 };
 
 static const GLfloat vertex_colors[] = {
@@ -75,22 +75,36 @@ static unsigned int indices[] = {
 };
 
 glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(2.0f, 5.0f, -15.0f),
         glm::vec3(-1.5f, -2.2f, -2.5f),
         glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f, 3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f, 2.0f, -2.5f),
+        glm::vec3(1.5f, 0.2f, -1.5f),
+        glm::vec3(-1.3f, 1.0f, -1.5f)
 };
 static float mixValue = 0.3f;
+
+// camera
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+// timing
+float deltaTime = 0.0f;    // time between current frame and last frame
+float lastFrame = 0.0f;
+
+unsigned int VAO, VBO, EBO;
+unsigned int texture[2];
+
+void doRender(Shader shader);
+
+void transformationRender(unsigned int shaderHandler, int index);
+
 void TextureRender::render() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    unsigned int VAO, VBO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -116,11 +130,10 @@ void TextureRender::render() {
 //    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
 //    glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
     // load and create a texture
-    unsigned int texture[2];
     glGenTextures(2, texture);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     // set texture wrapping parameter
@@ -132,12 +145,13 @@ void TextureRender::render() {
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    //  unsigned char* data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height, &nrChannels, 0);
-   unsigned char* data = stbi_load("images/Flare_1.jpg", &width, &height, &nrChannels, 0);
-    if(data){
+    unsigned char *data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height,
+                                    &nrChannels, 0);
+//   unsigned char* data = stbi_load("images/Flare_1.jpg", &width, &height, &nrChannels, 0);
+    if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    } else{
+    } else {
         std::cout << "failed to load texture" << std::endl;
     }
     stbi_image_free(data);
@@ -149,36 +163,48 @@ void TextureRender::render() {
     // set texture filtering parameter
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // unsigned char* data2 = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\awesomeface.png", &width, &height, &nrChannels, 0);
-   unsigned char* data2 = stbi_load("images/awesomeface.png", &width, &height, &nrChannels, 0);
-    if(data2){
+    unsigned char *data2 = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\awesomeface.png", &width,
+                                     &height, &nrChannels, 0);
+//   unsigned char* data2 = stbi_load("images/awesomeface.png", &width, &height, &nrChannels, 0);
+    if (data2) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
         glGenerateMipmap(GL_TEXTURE_2D);
-    } else{
+    } else {
         std::cout << "failed to load texture" << std::endl;
     }
     stbi_image_free(data2);
+
+//   Shader ourShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
+//    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+//                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shaderPtr\\basic_fragment.glsl");
+    ourShader.use();
+    glUniform1i(glGetUniformLocation(ourShader.programId, "texture1"), 0);
+    ourShader.setInt("texture2", 1);
+    ourShader.setFloat("mixAlpha", mixValue);
+
+    doRender(ourShader);
+
+}
+
+void doRender(Shader shader) {
+
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
 
-   Shader ourShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
-    //  Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-    //                   "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
-//    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-//                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shaderPtr\\basic_fragment.glsl");
-    ourShader.use();
-
-    glUniform1i(glGetUniformLocation(ourShader.programId, "texture1"), 0);
-    ourShader.setInt("texture2", 1);
-    ourShader.setFloat("mixAlpha", mixValue);
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     glBindVertexArray(VAO);
+
     for (int i = 0; i < 10; ++i) {
-        transformationRender(ourShader.programId, i);
+        transformationRender(shader.programId, i);
 //    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
@@ -187,17 +213,39 @@ void TextureRender::render() {
 //    glDrawArrays(GL_TRIANGLES, 0, 36);
 
 //    glFlush();
+
 }
 
-void TextureRender::onMixValueChange(float value) {
+void TextureRender::onMixValueChange(KeyEvent event) {
     mixValue += 0.01f;
-    if (mixValue > 1.0f){
-        mixValue = 0.1f;
+    float cameraSpeed = 2.5 * deltaTime;
+    switch (event) {
+        case UP:
+            cameraPos += cameraSpeed * cameraFront;
+            break;
+        case DOWN:
+            cameraPos -= cameraSpeed * cameraFront;
+            break;
+        case LEFT:
+            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            break;
+        case RIGHT:
+            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            break;
     }
+//    if (mixValue > 1.0f){
+//        mixValue = 0.1f;
+//    }
 //    render();
 }
 
-void TextureRender::transformationRender(unsigned int shaderHandler, int index) {
+void TextureRender::onDisplayLoop(int elapseTime) {
+    float currentFrame = elapseTime;
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+}
+
+void transformationRender(unsigned int shaderHandler, int index) {
     glm::mat4 transform(1.0f);
     float angle = 20 * (index + 1) * mixValue;
 //    transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
@@ -206,7 +254,12 @@ void TextureRender::transformationRender(unsigned int shaderHandler, int index) 
     // 3D
     glm::mat4 model(1.0f), view(1.0f), projection(1.0f);
 //    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    float radius = 10.0f;
+//    float camX = sin(mixValue) * radius;
+//    float camZ = cos(mixValue) * radius;
+//    view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+//    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
 
 //    unsigned int transformLoc = glGetUniformLocation(shaderHandler, "transform");
@@ -229,3 +282,5 @@ void TextureRender::transformationRender(unsigned int shaderHandler, int index) 
     //
 
 }
+
+
