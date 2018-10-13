@@ -124,12 +124,14 @@ int main(int argc, char **argv) {
     // 这里是关键代码
     glutDisplayFunc(RenderScene);
 
+    glutIdleFunc(RenderScene);
+
     // 键盘事件
     glutSpecialFunc(processKeyEvent);
 
 //    glutTimerFunc(15, timeDelayCallback, 1);
 
-    timeDelayCallback(glutGet(GLUT_ELAPSED_TIME));
+//    timeDelayCallback(glutGet(GLUT_ELAPSED_TIME));
 
     glutMainLoop();
 

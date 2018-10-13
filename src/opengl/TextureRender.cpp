@@ -97,14 +97,52 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
 
-unsigned int VAO, VBO, EBO;
+unsigned int VAO=0, VBO, EBO;
 unsigned int texture[2];
 
-void doRender(Shader shader);
+static Shader* shaderPtr;
+
+void doRender(Shader* shader);
 
 void transformationRender(unsigned int shaderHandler, int index);
 
 void TextureRender::render() {
+    if(VAO == 0){
+        init();
+    }
+    doRender(shaderPtr);
+}
+
+void TextureRender::onMixValueChange(KeyEvent event) {
+    mixValue += 0.01f;
+    float cameraSpeed = 2.5 * deltaTime;
+    switch (event) {
+        case UP:
+            cameraPos += cameraSpeed * cameraFront;
+            break;
+        case DOWN:
+            cameraPos -= cameraSpeed * cameraFront;
+            break;
+        case LEFT:
+            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            break;
+        case RIGHT:
+            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            break;
+    }
+//    if (mixValue > 1.0f){
+//        mixValue = 0.1f;
+//    }
+//    render();
+}
+
+void TextureRender::onDisplayLoop(int elapseTime) {
+    float currentFrame = elapseTime;
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+}
+
+void TextureRender::init() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -175,20 +213,19 @@ void TextureRender::render() {
     stbi_image_free(data2);
 
 //   Shader ourShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
-    Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+//    Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+//                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
+    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
                      "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
-//    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-//                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shaderPtr\\basic_fragment.glsl");
-    ourShader.use();
-    glUniform1i(glGetUniformLocation(ourShader.programId, "texture1"), 0);
-    ourShader.setInt("texture2", 1);
-    ourShader.setFloat("mixAlpha", mixValue);
-
-    doRender(ourShader);
+//    Shader* ptr = &ourShader;
+    shaderPtr->use();
+    glUniform1i(glGetUniformLocation(shaderPtr->programId, "texture1"), 0);
+    shaderPtr->setInt("texture2", 1);
+    shaderPtr->setFloat("mixAlpha", mixValue);
 
 }
 
-void doRender(Shader shader) {
+void doRender(Shader* shader) {
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -204,7 +241,7 @@ void doRender(Shader shader) {
     glBindVertexArray(VAO);
 
     for (int i = 0; i < 10; ++i) {
-        transformationRender(shader.programId, i);
+        transformationRender(shader->programId, i);
 //    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
@@ -214,35 +251,6 @@ void doRender(Shader shader) {
 
 //    glFlush();
 
-}
-
-void TextureRender::onMixValueChange(KeyEvent event) {
-    mixValue += 0.01f;
-    float cameraSpeed = 2.5 * deltaTime;
-    switch (event) {
-        case UP:
-            cameraPos += cameraSpeed * cameraFront;
-            break;
-        case DOWN:
-            cameraPos -= cameraSpeed * cameraFront;
-            break;
-        case LEFT:
-            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-            break;
-        case RIGHT:
-            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-            break;
-    }
-//    if (mixValue > 1.0f){
-//        mixValue = 0.1f;
-//    }
-//    render();
-}
-
-void TextureRender::onDisplayLoop(int elapseTime) {
-    float currentFrame = elapseTime;
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
 }
 
 void transformationRender(unsigned int shaderHandler, int index) {
