@@ -88,11 +88,11 @@ void processKeyEvent(int key, int x, int y) {
 
 void timeDelayCallback(int elapseTime){
 
-    textureRenderPtr->onDisplayLoop(elapseTime);
+    textureRenderPtr->onDisplayLoop(glutGet(GLUT_ELAPSED_TIME));
 
 //    glutPostRedisplay();
 
-//    glutTimerFunc(15, timeDelayCallback, 1);
+    glutTimerFunc(15, timeDelayCallback, 1);
 }
 
 int main(int argc, char **argv) {
@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
     // 键盘事件
     glutSpecialFunc(processKeyEvent);
 
-//    glutTimerFunc(15, timeDelayCallback, 1);
+    glutTimerFunc(15, timeDelayCallback, 1);
 
 //    timeDelayCallback(glutGet(GLUT_ELAPSED_TIME));
 

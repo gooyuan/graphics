@@ -94,8 +94,9 @@ glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 // timing
-float deltaTime = 0.0f;    // time between current frame and last frame
-float lastFrame = 0.0f;
+int *pInt;
+static int deltaTime = 0;    // time between current frame and last frame
+static int lastFrame = 0;
 
 unsigned int VAO=0, VBO, EBO;
 unsigned int texture[2];
@@ -115,7 +116,7 @@ void TextureRender::render() {
 
 void TextureRender::onMixValueChange(KeyEvent event) {
     mixValue += 0.01f;
-    float cameraSpeed = 2.5 * deltaTime;
+    float cameraSpeed = 2.5f * deltaTime;
     switch (event) {
         case UP:
             cameraPos += cameraSpeed * cameraFront;
@@ -130,6 +131,8 @@ void TextureRender::onMixValueChange(KeyEvent event) {
             cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
             break;
     }
+    printf("deltaTime: %d\n", deltaTime);
+    printf("cameraPos: (%f,%f,%f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
 //    if (mixValue > 1.0f){
 //        mixValue = 0.1f;
 //    }
@@ -137,9 +140,12 @@ void TextureRender::onMixValueChange(KeyEvent event) {
 }
 
 void TextureRender::onDisplayLoop(int elapseTime) {
-    float currentFrame = elapseTime;
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
+    mixValue += 0.01f;
+//    printf("elapseTime: %d\n", elapseTime);
+    deltaTime = elapseTime - lastFrame;
+    lastFrame = elapseTime;
+//    printf("deltaTime: %d\n", deltaTime);
+    render();
 }
 
 void TextureRender::init() {
@@ -238,6 +244,9 @@ void doRender(Shader* shader) {
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
 
+    glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    shaderPtr->setMat4("view", view);
+
     glBindVertexArray(VAO);
 
     for (int i = 0; i < 10; ++i) {
@@ -263,10 +272,10 @@ void transformationRender(unsigned int shaderHandler, int index) {
     glm::mat4 model(1.0f), view(1.0f), projection(1.0f);
 //    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     float radius = 10.0f;
-//    float camX = sin(mixValue) * radius;
-//    float camZ = cos(mixValue) * radius;
+    float camX = sin(mixValue) * radius;
+    float camZ = cos(mixValue) * radius;
 //    view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+//    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 //    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
 
@@ -280,8 +289,8 @@ void transformationRender(unsigned int shaderHandler, int index) {
     unsigned int modelLoc = glGetUniformLocation(shaderHandler, "model");
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-    unsigned int viewLoc = glGetUniformLocation(shaderHandler, "view");
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+//    unsigned int viewLoc = glGetUniformLocation(shaderHandler, "view");
+//    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 
     unsigned int projectLoc = glGetUniformLocation(shaderHandler, "projection");
     glUniformMatrix4fv(projectLoc, 1, GL_FALSE, glm::value_ptr(projection));
