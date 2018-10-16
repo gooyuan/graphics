@@ -61,29 +61,38 @@ void RenderScene() {
 }
 
 static float mixValue = 0.0f;
-void processKeyEvent(int key, int x, int y) {
+void processKeyEvent(unsigned char key, int x, int y) {
+    printf("(%d,%d)\n", x, y);
     TextureRender::KeyEvent event = TextureRender::UP;
     switch (key){
-        case GLUT_KEY_DOWN:
+        case 's':
             mixValue -= 0.1f;
             mixValue = mixValue > 0.0f ? mixValue : 0.0f;
             event = TextureRender::DOWN;
             break;
-        case GLUT_KEY_UP:
+        case 'w':
             event = TextureRender::UP;
             mixValue += 0.1f;
             mixValue = mixValue < 1.0f ? mixValue : 1.0f;
             break;
-        case GLUT_KEY_LEFT:
+        case 'a':
             event = TextureRender::LEFT;
             break;
-        case GLUT_KEY_RIGHT:
+        case 'd':
             event = TextureRender::RIGHT;
             break;
 
         default:break;
     }
     textureRenderPtr->onMixValueChange(event);
+}
+
+void processMouseEvent(int x, int y) {
+    textureRenderPtr->onMouseMove(0, x, y);
+}
+
+void processMouseWheelEvent(int button, int state, int x, int y){
+    textureRenderPtr->onMouseMove(button, x, y);
 }
 
 void timeDelayCallback(int elapseTime){
@@ -108,6 +117,8 @@ int main(int argc, char **argv) {
 
     glutCreateWindow("OpenGL Sophimp");
 
+    glutSetCursor(GLUT_CURSOR_NONE);
+
     // 初始化代码是有顺序的, 在这里可以正确初始化
     // 在glut初始化之后
     if(!gladLoadGL()) {
@@ -127,7 +138,15 @@ int main(int argc, char **argv) {
     glutIdleFunc(RenderScene);
 
     // 键盘事件
-    glutSpecialFunc(processKeyEvent);
+    glutKeyboardFunc(processKeyEvent);
+
+    // 鼠标事件
+    glutMouseFunc(processMouseWheelEvent);
+
+    glutPassiveMotionFunc(processMouseEvent);
+
+    // 滚轮事件
+    // glutMouseWheelFunc(processMouseWheelEvent);
 
     glutTimerFunc(15, timeDelayCallback, 1);
 

@@ -11,6 +11,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+// 公司与私人环境切换
+#define isCompany 1
+
 float vertices_cube[] = {
         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
@@ -89,7 +92,7 @@ glm::vec3 cubePositions[] = {
 static float mixValue = 0.3f;
 
 // camera
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, -3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -97,6 +100,10 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 int *pInt;
 static int deltaTime = 0;    // time between current frame and last frame
 static int lastFrame = 0;
+static int lastX = 300, lastY = 300;
+const float sensity = 0.01f;
+float yaw=1.0f, pitch=1.0f;
+float fov = 60.0f;
 
 unsigned int VAO=0, VBO, EBO;
 unsigned int texture[2];
@@ -116,7 +123,7 @@ void TextureRender::render() {
 
 void TextureRender::onMixValueChange(KeyEvent event) {
     mixValue += 0.01f;
-    float cameraSpeed = 2.5f * deltaTime;
+    float cameraSpeed = 2.5f * deltaTime / 500.0f;
     switch (event) {
         case UP:
             cameraPos += cameraSpeed * cameraFront;
@@ -131,12 +138,52 @@ void TextureRender::onMixValueChange(KeyEvent event) {
             cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
             break;
     }
-    printf("deltaTime: %d\n", deltaTime);
-    printf("cameraPos: (%f,%f,%f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
+    // printf("deltaTime: %d\n", deltaTime);
+    // printf("cameraPos: (%f,%f,%f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
 //    if (mixValue > 1.0f){
 //        mixValue = 0.1f;
 //    }
 //    render();
+}
+
+bool firstMouse = true;
+void TextureRender::onMouseMove(int button, int x, int y){
+    printf("%d-(%d,%d)\n", button, x, y);
+    if(firstMouse){
+        lastX = x;
+        lastY = y;
+        firstMouse = false;
+    }
+    float xoffset = x - lastX;
+    float yoffset = y - lastY;
+    lastX = x;
+    lastY = y;
+    xoffset *= sensity;
+    yoffset *= sensity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+    if(pitch > 89.0f) pitch = 89.0f;
+    if(pitch < -89.0f) pitch = -89.0f;
+
+    glm::vec3 front(0.0, 0.0, -1.0f);
+    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+    front.y = sin(glm::radians(pitch));
+    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+    cameraFront = glm::normalize(front);
+
+    // mouse wheel
+    if(button == 3){
+        fov += 1.0f;
+    }else if(button == 4){
+        fov -= 1.0f;
+    }
+    if(fov < 1.0f){
+        fov = 1.0f;
+    }
+    if(fov > 60.0f){
+        fov = 60.0f;
+    }
 }
 
 void TextureRender::onDisplayLoop(int elapseTime) {
@@ -189,9 +236,12 @@ void TextureRender::init() {
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height,
-                                    &nrChannels, 0);
-//   unsigned char* data = stbi_load("images/Flare_1.jpg", &width, &height, &nrChannels, 0);
+    unsigned char* data;
+    if(isCompany){
+        data = stbi_load("images/Flare_1.jpg", &width, &height, &nrChannels, 0);
+    }else{
+        data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height, &nrChannels, 0);
+    }
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -207,9 +257,13 @@ void TextureRender::init() {
     // set texture filtering parameter
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    unsigned char *data2 = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\awesomeface.png", &width,
+    unsigned char* data2;
+    if(isCompany){
+        data2 = stbi_load("images/awesomeface.png", &width, &height, &nrChannels, 0);
+    }else{
+        data2 = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\awesomeface.png", &width,
                                      &height, &nrChannels, 0);
-//   unsigned char* data2 = stbi_load("images/awesomeface.png", &width, &height, &nrChannels, 0);
+    }
     if (data2) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -218,12 +272,13 @@ void TextureRender::init() {
     }
     stbi_image_free(data2);
 
-//   Shader ourShader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
-//    Shader ourShader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-//                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
-    shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
+    if(isCompany){
+        shaderPtr =  new Shader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    }else{
+        shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
                      "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
-//    Shader* ptr = &ourShader;
+    }
+                    
     shaderPtr->use();
     glUniform1i(glGetUniformLocation(shaderPtr->programId, "texture1"), 0);
     shaderPtr->setInt("texture2", 1);
@@ -277,7 +332,7 @@ void transformationRender(unsigned int shaderHandler, int index) {
 //    view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 //    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 //    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(fov), 1.0f, 0.1f, 100.0f);
 
 //    unsigned int transformLoc = glGetUniformLocation(shaderHandler, "transform");
 //    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));

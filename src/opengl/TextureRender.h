@@ -21,6 +21,8 @@ public:
 
     void onDisplayLoop(int elapseTime);
 
+    void onMouseMove(int button, int x, int y);
+
 private:
     void transformationRender(unsigned int shaderHandler, int index);
 
