@@ -92,7 +92,7 @@ glm::vec3 cubePositions[] = {
 static float mixValue = 0.3f;
 
 // camera
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, -3.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -102,7 +102,7 @@ static int deltaTime = 0;    // time between current frame and last frame
 static int lastFrame = 0;
 static int lastX = 300, lastY = 300;
 const float sensity = 0.01f;
-float yaw=1.0f, pitch=1.0f;
+float yaw=-90.0f, pitch=1.0f;
 float fov = 60.0f;
 
 unsigned int VAO=0, VBO, EBO;
