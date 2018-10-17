@@ -2,17 +2,15 @@
 // Created by Sophimp on 2018/10/2.
 //
 
-#include <glad/glad.h>
 #include "TextureRender.h"
 #include "Shader.h"
 #include <iostream>
+#include <gtc/type_ptr.inl>
 #include "stb_image.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "Camera.h"
 
 // 公司与私人环境切换
-#define isCompany 1
+#define isCompany 0
 
 float vertices_cube[] = {
         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -91,31 +89,26 @@ glm::vec3 cubePositions[] = {
 };
 static float mixValue = 0.3f;
 
-// camera
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 // timing
 int *pInt;
 static int deltaTime = 0;    // time between current frame and last frame
 static int lastFrame = 0;
 static int lastX = 300, lastY = 300;
-const float sensity = 0.01f;
-float yaw=-90.0f, pitch=1.0f;
-float fov = 60.0f;
 
-unsigned int VAO=0, VBO, EBO;
+unsigned int VAO = 0, VBO, EBO;
 unsigned int texture[2];
 
-static Shader* shaderPtr;
+static Shader *shaderPtr;
 
-void doRender(Shader* shader);
+void doRender(Shader *shader);
 
 void transformationRender(unsigned int shaderHandler, int index);
 
+Camera camera;
+
 void TextureRender::render() {
-    if(VAO == 0){
+    if (VAO == 0) {
         init();
     }
     doRender(shaderPtr);
@@ -123,19 +116,18 @@ void TextureRender::render() {
 
 void TextureRender::onMixValueChange(KeyEvent event) {
     mixValue += 0.01f;
-    float cameraSpeed = 2.5f * deltaTime / 500.0f;
     switch (event) {
         case UP:
-            cameraPos += cameraSpeed * cameraFront;
+            camera.ProcessKeyBoard(FORWARD, deltaTime / 500.0f);
             break;
         case DOWN:
-            cameraPos -= cameraSpeed * cameraFront;
+            camera.ProcessKeyBoard(BACKWARD, deltaTime / 500.0f);
             break;
         case LEFT:
-            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            camera.ProcessKeyBoard(CAMERA_DIRECTION::LEFT, deltaTime / 500.0f);
             break;
         case RIGHT:
-            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            camera.ProcessKeyBoard(CAMERA_DIRECTION::RIGHT, deltaTime / 500.0f);
             break;
     }
     // printf("deltaTime: %d\n", deltaTime);
@@ -147,9 +139,10 @@ void TextureRender::onMixValueChange(KeyEvent event) {
 }
 
 bool firstMouse = true;
-void TextureRender::onMouseMove(int button, int x, int y){
+
+void TextureRender::onMouseMove(int button, int x, int y) {
     printf("%d-(%d,%d)\n", button, x, y);
-    if(firstMouse){
+    if (firstMouse) {
         lastX = x;
         lastY = y;
         firstMouse = false;
@@ -158,31 +151,14 @@ void TextureRender::onMouseMove(int button, int x, int y){
     float yoffset = y - lastY;
     lastX = x;
     lastY = y;
-    xoffset *= sensity;
-    yoffset *= sensity;
 
-    yaw += xoffset;
-    pitch += yoffset;
-    if(pitch > 89.0f) pitch = 89.0f;
-    if(pitch < -89.0f) pitch = -89.0f;
-
-    glm::vec3 front(0.0, 0.0, -1.0f);
-    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-    front.y = sin(glm::radians(pitch));
-    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-    cameraFront = glm::normalize(front);
+    camera.ProcessMouseMovement(true, xoffset, yoffset);
 
     // mouse wheel
-    if(button == 3){
-        fov += 1.0f;
-    }else if(button == 4){
-        fov -= 1.0f;
-    }
-    if(fov < 1.0f){
-        fov = 1.0f;
-    }
-    if(fov > 60.0f){
-        fov = 60.0f;
+    if (button == 3) {
+        camera.ProcessMouseScroll(1);
+    } else if (button == 4) {
+        camera.ProcessMouseScroll(-1);
     }
 }
 
@@ -236,11 +212,12 @@ void TextureRender::init() {
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* data;
-    if(isCompany){
+    unsigned char *data;
+    if (isCompany) {
         data = stbi_load("images/Flare_1.jpg", &width, &height, &nrChannels, 0);
-    }else{
-        data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height, &nrChannels, 0);
+    } else {
+        data = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\Flare_1.jpg", &width, &height,
+                         &nrChannels, 0);
     }
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -257,12 +234,12 @@ void TextureRender::init() {
     // set texture filtering parameter
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    unsigned char* data2;
-    if(isCompany){
+    unsigned char *data2;
+    if (isCompany) {
         data2 = stbi_load("images/awesomeface.png", &width, &height, &nrChannels, 0);
-    }else{
+    } else {
         data2 = stbi_load("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\images\\awesomeface.png", &width,
-                                     &height, &nrChannels, 0);
+                          &height, &nrChannels, 0);
     }
     if (data2) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
@@ -272,13 +249,13 @@ void TextureRender::init() {
     }
     stbi_image_free(data2);
 
-    if(isCompany){
-        shaderPtr =  new Shader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
-    }else{
+    if (isCompany) {
+        shaderPtr = new Shader("shader/basic_vertex.glsl", "shader/basic_fragment.glsl");
+    } else {
         shaderPtr = new Shader("F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_vertex.glsl",
-                     "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
+                               "F:\\code\\opengl\\CLionOpenGL\\src\\opengl\\shader\\basic_fragment.glsl");
     }
-                    
+
     shaderPtr->use();
     glUniform1i(glGetUniformLocation(shaderPtr->programId, "texture1"), 0);
     shaderPtr->setInt("texture2", 1);
@@ -286,7 +263,7 @@ void TextureRender::init() {
 
 }
 
-void doRender(Shader* shader) {
+void doRender(Shader *shader) {
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -299,7 +276,7 @@ void doRender(Shader* shader) {
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
 
-    glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    glm::mat4 view = camera.GetViewMatrix();
     shaderPtr->setMat4("view", view);
 
     glBindVertexArray(VAO);
@@ -332,7 +309,7 @@ void transformationRender(unsigned int shaderHandler, int index) {
 //    view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 //    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 //    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(fov), 1.0f, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(camera.Zoom), 1.0f, 0.1f, 100.0f);
 
 //    unsigned int transformLoc = glGetUniformLocation(shaderHandler, "transform");
 //    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));

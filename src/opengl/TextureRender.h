@@ -29,6 +29,7 @@ private:
     const float PI = 3.141592653f;
 
     void init();
+
 };
 
 #endif //CLIONOPENGL_TEXTURERENDER_H
