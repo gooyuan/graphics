@@ -105,7 +105,7 @@ void doRender(Shader *shader);
 
 void transformationRender(unsigned int shaderHandler, int index);
 
-Camera camera;
+static Camera camera(glm::vec3(0.0f, 0.0f, 0.3f));
 
 void TextureRender::render() {
     if (VAO == 0) {
@@ -131,7 +131,7 @@ void TextureRender::onMixValueChange(KeyEvent event) {
             break;
     }
     // printf("deltaTime: %d\n", deltaTime);
-    // printf("cameraPos: (%f,%f,%f)\n", cameraPos.x, cameraPos.y, cameraPos.z);
+//     printf("cameraPos: (%f,%f,%f)\n", camera.Position.x, camera.Position.y, camera.Position.z);
 //    if (mixValue > 1.0f){
 //        mixValue = 0.1f;
 //    }
@@ -141,7 +141,7 @@ void TextureRender::onMixValueChange(KeyEvent event) {
 bool firstMouse = true;
 
 void TextureRender::onMouseMove(int button, int x, int y) {
-    printf("%d-(%d,%d)\n", button, x, y);
+//    printf("%d-(%d,%d)\n", button, x, y);
     if (firstMouse) {
         lastX = x;
         lastY = y;

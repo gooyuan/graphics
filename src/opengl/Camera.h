@@ -45,7 +45,7 @@ public:
            float yaw = YAW, float pitch = PITCH)
             : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM) {
         Position = position;
-        Up = up;
+        WorldUp = up;
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
@@ -54,7 +54,7 @@ public:
     Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
             : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM) {
         Position = glm::vec3(posX, posY, posZ);
-        Up = glm::vec3(upX, upY, upZ);
+        WorldUp = glm::vec3(upX, upY, upZ);
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
@@ -103,7 +103,7 @@ public:
         } else {
             Zoom -= 1.0f;
         }
-        if (Zoom > 60.0f) Zoom = 60.0f;
+        if (Zoom > 45.0f) Zoom = 45.0f;
         if (Zoom < 1.0f) Zoom = 1.0f;
     }
 
