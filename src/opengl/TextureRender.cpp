@@ -10,7 +10,7 @@
 #include "Camera.h"
 
 // 公司与私人环境切换
-#define isCompany 0
+#define isCompany 1
 
 float vertices_cube[] = {
         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
