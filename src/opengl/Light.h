@@ -16,7 +16,8 @@ public:
 
     void onMouseEvent(int button, int x, int y);
 private:
-    
+
+    int ElapseTime;
 };
 
 
