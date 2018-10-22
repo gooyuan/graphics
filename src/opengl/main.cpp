@@ -7,6 +7,7 @@
 #include "PrimitiveRender.h"
 #include "KochSnowFlake.h"
 #include "TextureRender.h"
+#include "Light.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ void ChangeSize(GLsizei w, GLsizei h) {
 }
 
 static TextureRender *textureRenderPtr;
+static Light *light;
 void RenderScene() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 1.0, 0.0);
@@ -53,9 +55,14 @@ void RenderScene() {
     // KochSnowFlake *snowFlake = new KochSnowFlake();
     // snowFlake->kochSnowRender();
     // delete snowFlake;
-    textureRenderPtr = new TextureRender();
-    // texture
-    textureRenderPtr->render();
+
+    // texture test
+    // textureRenderPtr = new TextureRender();
+    // textureRenderPtr->render();
+
+    // 光照测试
+    light = new Light(); 
+    light->sceneRender();
 
     glutSwapBuffers();
 }
@@ -63,41 +70,45 @@ void RenderScene() {
 static float mixValue = 0.0f;
 void processKeyEvent(unsigned char key, int x, int y) {
     printf("(%d,%d)\n", x, y);
-    TextureRender::KeyEvent event = TextureRender::UP;
+    // TextureRender::KeyEvent event = TextureRender::UP;
     switch (key){
         case 's':
             mixValue -= 0.1f;
             mixValue = mixValue > 0.0f ? mixValue : 0.0f;
-            event = TextureRender::DOWN;
+            // event = TextureRender::DOWN;
             break;
         case 'w':
-            event = TextureRender::UP;
+            // event = TextureRender::UP;
             mixValue += 0.1f;
             mixValue = mixValue < 1.0f ? mixValue : 1.0f;
             break;
         case 'a':
-            event = TextureRender::LEFT;
+            // event = TextureRender::LEFT;
             break;
         case 'd':
-            event = TextureRender::RIGHT;
+            // event = TextureRender::RIGHT;
             break;
 
         default:break;
     }
-    textureRenderPtr->onMixValueChange(event);
+    // textureRenderPtr->onMixValueChange(event);
+    light -> onProcessKeyEvent(key);
 }
 
 void processMouseEvent(int x, int y) {
-    textureRenderPtr->onMouseMove(0, x, y);
+    // textureRenderPtr->onMouseMove(0, x, y);
+    light -> onMouseEvent(0, x, y);
 }
 
 void processMouseWheelEvent(int button, int state, int x, int y){
-    textureRenderPtr->onMouseMove(button, x, y);
+    // textureRenderPtr->onMouseMove(button, x, y);
+    light -> onMouseEvent(button, x, y);
 }
 
 void timeDelayCallback(int elapseTime){
 
-    textureRenderPtr->onDisplayLoop(glutGet(GLUT_ELAPSED_TIME));
+    // textureRenderPtr->onDisplayLoop(glutGet(GLUT_ELAPSED_TIME));
+    light->onDisplayLoop(glutGet(GLUT_ELAPSED_TIME));
 
 //    glutPostRedisplay();
 

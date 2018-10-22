@@ -8,6 +8,15 @@
 
 class Light {
 
+public:
+    void sceneRender();
+    void onProcessKeyEvent(unsigned char key);
+
+    void onDisplayLoop(int elapseTime);
+
+    void onMouseEvent(int button, int x, int y);
+private:
+    
 };
 
 
