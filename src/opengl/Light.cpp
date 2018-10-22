@@ -3,11 +3,16 @@
 //
 #include "Light.h"
 #include <glad/glad.h>
+#include <stdio.h>
 #include "Shader.h"
 #include "Camera.h"
 
 static const bool isCompany = false;
 static float changeValue = 0.0f;
+
+static float deltaTime = 0.0f;
+static float lastFrame = 0.0f;
+
 static float vertices[] = {
         -0.5f, -0.5f, -0.5f,
         0.5f, -0.5f, -0.5f,
@@ -52,7 +57,7 @@ static float vertices[] = {
         -0.5f,  0.5f, -0.5f,
 };
 
-static glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+static glm::vec3 lightPos(-1.2f, 1.0f, 2.0f);
 
 static unsigned int VBO=0, cubeVAO, lightVAO;
 static Shader *lightingShader, *lampShader;
@@ -116,6 +121,7 @@ void Light::sceneRender(){
 
     // world transformation
     glm::mat4 model(1.0f);
+    model = glm::rotate(model, glm::radians(20.0f * changeValue), glm::vec3(1.0f, 0.3f, 0.5f));
     lightingShader -> setMat4("model", model);
 
     // render the cube
@@ -128,7 +134,8 @@ void Light::sceneRender(){
     lampShader->setMat4("view", view);
     model = glm::mat4(1.0f);
     model = glm::translate(model, lightPos);
-    model = glm::scale(model, glm::vec3(0.2f));
+    model = glm::rotate(model, glm::radians(20.0f * changeValue), glm::vec3(1.0f, 0.3f, 0.5f));
+//    model = glm::scale(model, glm::vec3(0.2f));
     lampShader->setMat4("model", model);
 
     glBindVertexArray(lightVAO);
@@ -138,7 +145,6 @@ void Light::sceneRender(){
 
 
 void Light::onProcessKeyEvent(unsigned char key){
-    float deltaTime = ElapseTime / 500.0f;
     changeValue += deltaTime;
     switch (key){
         case 'w':
@@ -157,7 +163,11 @@ void Light::onProcessKeyEvent(unsigned char key){
 }
 
 void Light::onDisplayLoop(int elapseTime){
-    ElapseTime = elapseTime / 500.0f;
+    deltaTime = (elapseTime - lastFrame)/300.0f;
+    lastFrame = elapseTime;
+    changeValue += deltaTime;
+//    printf("delta time: %f \n ", deltaTime);
+    sceneRender();
 }
 
 static float lastX = 600 / 2.0f;
