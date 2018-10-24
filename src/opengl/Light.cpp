@@ -114,11 +114,15 @@ void Light::sceneRender() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // change the light's position values over time
+    lightPos.x = 1.0f + sin(changeValue) * 2.0f;
+    lightPos.y = sin(changeValue / 2.0f) * 1.0f; 
     // be sure to activate shader when setting uniforms/drawing objects
     lightingShader->use();
     lightingShader->setVec3("objectColor", 1.0f, 0.5f, 0.31f);
     lightingShader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     lightingShader->setVec3("lightPos", lightPos);
+    lightingShader->setVec3("viewPos", camera.Position);
 
     //view/projection  transformations
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), 1.0f, 0.1f, 100.0f);
@@ -128,7 +132,7 @@ void Light::sceneRender() {
 
     // world transformation
     glm::mat4 model(1.0f);
-    model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+    model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(1.0f, 0.3f, 1.5f));
     lightingShader->setMat4("model", model);
 
     // render the cube
